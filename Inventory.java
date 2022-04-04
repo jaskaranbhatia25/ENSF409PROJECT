@@ -11,10 +11,10 @@ public class Inventory{
 		inventoryItems .set(index -1, null);
 		
 	}	
-	public ArrayList<FoodItem> getItems(){
+	public ArrayList<FoodItem> getInventoryItems(){
 		return inventoryItems ;
 	}
-    public FoodItem getItem(int index){
+    public FoodItem getInventoryItem(int index){
         return inventoryItems.get(index);
     }		
 	
