@@ -25,7 +25,7 @@ public class ClientType{
 	}
 	
 	public String getClient(){
-		return CLIENT;
+		
 	}
 	
 	public int getWholeGrains(){
