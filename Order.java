@@ -36,13 +36,12 @@ public class Order implements OrderSummary {
 	
 	public void validateOrder() {
 		for(int i = 0; i < this.families.size(); i++) {
-			if(families.get(i).getValid() == false) {
+			if(families.get(i).getHamper().getValid() == false) {
 				this.validOrder = false;
-			}
-			else {
-				this.validOrder = true;
+				break;
 			}
 		}
+		this.validOrder = true;
 	}
 	
 	@Override
@@ -50,7 +49,7 @@ public class Order implements OrderSummary {
 		StringBuilder formattedSummary = new StringBuilder();
 		formattedSummary.append("Hamper Order Form\n\n" + "Name: " + this.name + "\n" + "Date: " + this.date + "\n\n");
 		for(int i = 0; i < this.families.size(); i++) {
-			formattedSummary.append("Hamper " + (i+1) + "Items\n");
+			formattedSummary.append("Hamper " + (i+1) + " Items:\n");
 			ArrayList<FoodItem> hamperItems = this.families.get(i).getHamper().getHamperItems();
 			for(int j = 0; j < hamperItems.size(); j++) {
 				if(j == hamperItems.size() - 1) {
