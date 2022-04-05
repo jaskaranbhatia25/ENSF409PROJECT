@@ -1,6 +1,6 @@
 package edu.ucalgary.ensf409;
 
-public class ClientType{
+public class ClientType implements Cloneable {
 	
 	private final int CLIENT_ID;
 	private final String CLIENT;
@@ -21,7 +21,7 @@ public class ClientType{
 	}
 	
 	public int getClientID(){
-		return CLIENT_ID
+		return this.CLIENT_ID;
 	}
 	
 	public String getClient(){
@@ -48,5 +48,7 @@ public class ClientType{
 		return CALORIES;
 	}
 	
-}	
-		
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone();
+	}
+}
