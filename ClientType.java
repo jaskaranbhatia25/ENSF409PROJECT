@@ -1,6 +1,6 @@
 package edu.ucalgary.ensf409;
 
-public class ClientType implements Cloneable {
+public class ClientType {
 	
 	private final int CLIENT_ID;
 	private final String CLIENT;
