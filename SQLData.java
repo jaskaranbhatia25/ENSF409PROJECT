@@ -56,11 +56,11 @@ public class SQLData {
 	
 	private void delete(int id) {
          try {
-                String query = "DELETE FROM AVAILABLE_FOOD WHERE ItemID = ?";
-                PreparedStatement myStmt = dbConnect.prepareStatement(query);
-                myStmt.setString(1, id);
-                myStmt.executeUpdate();
-                myStmt.close();
+        	 String query = "DELETE FROM AVAILABLE_FOOD WHERE ItemID = ?";
+             PreparedStatement myStmt = dbConnect.prepareStatement(query);
+             myStmt.setInt(1, id);
+             myStmt.executeUpdate();
+             myStmt.close();
          } catch (SQLException ex) {
         	 ex.printStackTrace();
          }
