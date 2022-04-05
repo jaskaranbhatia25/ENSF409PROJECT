@@ -1,6 +1,7 @@
 package edu.ucalgary.ensf409;
 
-public class FoodItem{
+public class FoodItem implements Cloneable {
+	
 	private final int ITEM_ID;
 	private final int GRAIN_CONTENT;
 	private final int FV_CONTENT;
@@ -9,7 +10,7 @@ public class FoodItem{
 	private final int CALORIES;
 	private final String NAME;
 	
-	public FoodItem(String name, int itemID, int grainContent, int fvContent, int proContent, int other, int calories){
+	public FoodItem(int itemID, String name, int grainContent, int fvContent, int proContent, int other, int calories){
 		this.ITEM_ID = itemID;
 		this.NAME = name;
 		this.GRAIN_CONTENT = grainContent;
@@ -22,22 +23,32 @@ public class FoodItem{
     public String getName(){
 		return this.NAME;
 	}
+    
 	public int getItemID(){
 		return this.ITEM_ID;
 	}
+	
 	public int getGrainContent(){
-		this.GRAIN_CONTENT;
+		return this.GRAIN_CONTENT;
 	}
+	
 	public int getFVContent(){
-		this.FV_CONTENT;
+		return this.FV_CONTENT;
 	}
+	
 	public int getProContent(){
-		this.PRO_CONTENT;
+		return this.PRO_CONTENT;
 	}
+	
 	public int OtherContent(){
-		this.OTHER;
+		return this.OTHER;
 	}
+	
 	public int getCalories(){
-		this.CALORIES;
+		return this.CALORIES;
+	}
+	
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone();
 	}
 }
