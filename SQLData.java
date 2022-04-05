@@ -7,12 +7,11 @@ import java.sql.SQLException;
 
 public class SQLData {
 
-    public final String DBURL;
-    public final String USERNAME;
-    public final String PASSWORD; 
-    private Connection dbConnect;
-    private ResultSet results;
-	
+        private final String DBURL;
+        private final String USERNAME;
+        private final String PASSWORD; 
+        private Connection dbConnect;
+        private ResultSet results;
 	private Inventory originalInventory;
 	private Inventory updatedInventory;
 	private ArrayList<ClientType> clients;
@@ -27,10 +26,26 @@ public class SQLData {
 		
         try{
             dbConnect = DriverManager.getConnection(this.DBURL, this.USERNAME , this.PASSWORD);
+            Statement myStmt = dbConnect.createStatement();
+            results = myStmt.executeQuery("SELECT * FROM "+DAILY_CLIENT_NEEDS);
+	    while (results.next()){
+		  ClientType client = new ClientType(getInt("ClientID"), getString("Client"), getInt("WholeGrains"), getInt("FruitVeggies"), getInt("Protein"), getInt("Other"), getInt("Calories"));
+		  this.clients.add(client);
+	    }	    
+	    myStmt.close();    
         } catch (SQLException e) {
             e.printStackTrace();
         }  
 	}
+       public void close() {
+        
+          try {
+            results.close();
+            dbConnect.close();
+           }catch (SQLException e) {
+            e.printStackTrace();
+          }
+        }   
 	
 	public void updateDatabase() {
 		
