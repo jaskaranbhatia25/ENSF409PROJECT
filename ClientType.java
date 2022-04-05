@@ -25,30 +25,26 @@ public class ClientType implements Cloneable {
 	}
 	
 	public String getClient(){
-		return CLIENT;
+		return this.CLIENT;
 	}
 	
 	public int getWholeGrains(){
-		return WHOLE_GRAINS;
+		return this.WHOLE_GRAINS;
 	}
 	
 	public int getFruitVeggies(){
-		return FRUIT_VEGGIES;
+		return this.FRUIT_VEGGIES;
 	}
 	
 	public int getProtein(){
-		return PROTEIN;
+		return this.PROTEIN;
 	}
 	
 	public int getOther(){
-		return OTHER;
+		return this.OTHER;
 	}
 	
 	public int getCalories(){
-		return CALORIES;
-	}
-	
-	public Object clone() throws CloneNotSupportedException {
-		return super.clone();
+		return this.CALORIES;
 	}
 }
