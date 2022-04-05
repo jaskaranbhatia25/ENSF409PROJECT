@@ -2,7 +2,7 @@ package edu.ucalgary.ensf409;
 
 import java.util.*;
 
-public class Hamper{
+public class Hamper {
 	
 	private SQLData myData;
 	private final double TOTAL_WHOLE_GRAIN_CONTENT;
