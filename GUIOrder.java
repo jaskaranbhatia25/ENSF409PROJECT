@@ -1,8 +1,3 @@
-/*
-Copyright Ann Barcomb and Emily Marasco, 2021
-Licensed under GPL v3
-See LICENSE.txt for more information.
-*/
 
 package edu.ucalgary.ensf409;
 
@@ -190,12 +185,15 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener{
 			numOfMales = Integer.parseInt(male);
 	        if( numOfMales < 0 || numOfMales > 10){
 	            allInputValid = false;
-	            JOptionPane.showMessageDialog(this, "The value entered for the number of males is out of range, please enter an integer between 1 and 10.");
+	            JOptionPane.showMessageDialog(this, "The value entered for the number of males is out of range, please enter an integer between 0 and 10.");
 	        }
 
 		}catch(Exception e){
 			allInputValid = false;
-            JOptionPane.showMessageDialog(this, male + " is invalid value for the number of males.");
+			if(male.equals(""))
+				JOptionPane.showMessageDialog(this, "Number of males field cannot be left empty.");
+			else
+               JOptionPane.showMessageDialog(this, male + " is invalid value for the number of males.");
         }
 		
 		try{
@@ -203,35 +201,44 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener{
 			numOfFemales = Integer.parseInt(female);
 	        if( numOfFemales < 0 || numOfFemales > 10){
 	            allInputValid = false;
-	            JOptionPane.showMessageDialog(this, "The value entered for the number of females is out of range, please enter an integer between 1 and 10.");
+	            JOptionPane.showMessageDialog(this, "The value entered for the number of females is out of range, please enter an integer between 0 and 10.");
 	        }
 
 		}catch(Exception e){
 			allInputValid = false;
-            JOptionPane.showMessageDialog(this, female + " is invalid value for the number of females.");
+			if(female.equals(""))
+				JOptionPane.showMessageDialog(this, "Number of females field cannot be left empty.");
+			else
+                JOptionPane.showMessageDialog(this, female + " is invalid value for the number of females.");
         }
 		try{
 
 			over8 = Integer.parseInt(o8);
 	        if( over8 < 0 || over8 > 10){
 	            allInputValid = false;
-	            JOptionPane.showMessageDialog(this,"The value entered for  the number of children over eight is out of range, please enter an integer between 1 and 10.");
+	            JOptionPane.showMessageDialog(this,"The value entered for  the number of children over eight is out of range, please enter an integer between 0 and 10.");
 	        }
 
 		}catch(Exception e){
 			allInputValid = false;
-            JOptionPane.showMessageDialog(this, o8 + " is invalid value for the number of children over eight.");
+			if(o8.equals(""))
+				JOptionPane.showMessageDialog(this, "Number of children over 8 field cannot be left empty.");
+			else
+                JOptionPane.showMessageDialog(this, o8 + " is invalid value for the number of children over eight.");
         }
 		try{
 			under8 = Integer.parseInt(u8);
 
 	        if(under8 < 0 || under8 > 10){
 	            allInputValid = false;
-	            JOptionPane.showMessageDialog(this, "The value entered for the number of children under eight is out of range, please enter an integer between 1 and 10.");
+	            JOptionPane.showMessageDialog(this, "The value entered for the number of children under eight is out of range, please enter an integer between 0 and 10.");
 	        }
 		}catch(Exception e){
 			allInputValid = false;
-            JOptionPane.showMessageDialog(this, u8 + " is invalid integer for the number of children under eight.");
+			if(u8.equals(""))
+				JOptionPane.showMessageDialog(this, "Number of children under 8 field cannot be left empty.");
+			else
+                JOptionPane.showMessageDialog(this, u8 + " is invalid value for the number of children under eight.");
         }		
         
 
