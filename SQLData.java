@@ -11,9 +11,9 @@ public class SQLData {
     private Connection dbConnect;
     private ResultSet resultsClient;
 	private ResultSet resultsAvailableFood;
-	private Inventory originalInventory;
-	private Inventory updatedInventory;
-	private ArrayList<ClientType> clients;
+	private Inventory originalInventory=new Inventory();
+	private Inventory updatedInventory=new Inventory();;
+	private ArrayList<ClientType> clients=new ArrayList<>();
 	
 	public SQLData(String dbURL, String username, String password) {
 		this.DBURL = dbURL;
