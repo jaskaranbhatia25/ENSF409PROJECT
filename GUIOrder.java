@@ -1,4 +1,10 @@
 
+/*
+Copyright Ann Barcomb and Emily Marasco, 2021
+Licensed under GPL v3
+See LICENSE.txt for more information.
+*/
+
 package edu.ucalgary.ensf409;
 
 import java.awt.BorderLayout;
@@ -185,7 +191,7 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener{
 			numOfMales = Integer.parseInt(male);
 	        if( numOfMales < 0 || numOfMales > 10){
 	            allInputValid = false;
-	            JOptionPane.showMessageDialog(this, "The value entered for the number of males is out of range, please enter an integer between 0 and 10.");
+	            JOptionPane.showMessageDialog(this, "The value entered for the number of males is out of range, please enter an integer between  and 10.");
 	        }
 
 		}catch(Exception e){
