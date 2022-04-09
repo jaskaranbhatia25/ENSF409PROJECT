@@ -38,18 +38,21 @@ public class Order implements OrderSummary {
 	}
 	
 	public void validateOrder() {
-		for(int i = 0; i < this.families.size(); i++) {
-			if(families.get(i).getHamper().getValid() == false) {
-				return;
+		if(families.size()!=0) {
+			for(int i = 0; i < this.families.size(); i++) {
+				if(families.get(i).getHamper().getValid() == false) {
+					return;
+				}
 			}
+			this.validOrder=true;
 		}
-		this.validOrder=true;
+
 	}
 	
 	@Override
-	public String formatSummary() {
+	public String formatSummary(int numOfOrders) {
 		StringBuilder formattedSummary = new StringBuilder();
-		formattedSummary.append("Hamper Order Form\n\n" + "Name: " + this.name + "\n" + "Date: " + this.date + "\n\n");
+		formattedSummary.append("Hamper Order Form\n\n" + "Name: " + this.name +" "+numOfOrders+ "\n" + "Date: " + this.date + "\n\n");
 		for(int i = 0; i < this.families.size(); i++) {
 			formattedSummary.append("Hamper " + (i+1) + " Items\n");
 			ArrayList<FoodItem> hamperItems = this.families.get(i).getHamper().getHamperItems();
