@@ -44,9 +44,9 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener{
     private JTextField o8Input;
     private JTextField u8Input;
     
-    public GUIOrder(Order order, SQLData myData) throws CloneNotSupportedException{
+    public GUIOrder(SQLData myData) throws CloneNotSupportedException{
         super("Hamper Ordering System");
-		this.order = order; 
+		this.order = new Order(); 
 		this.myData = myData;
 		this.myData.connectDatabase();
 		
@@ -129,21 +129,41 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener{
     		   Family family = families.get(i);
     		   family.createHamper(this.myData,  family.getNumOfMales(), family.getNumOfFemales(), family.getNumOfChildrenOver8(), family.getNumOfChildrenUnder8());
     		   Hamper hamper = family.getHamper();
-    		   //hamper.fillHamper();
-    		   //hamper.updateInventory();
+    		   hamper.fillHamper();
+    		   hamper.updateInventory();
     	   }
     	   order.validateOrder();
     	   if(order.getValidOrder()) {
-    		  // myData.updateDatabase();
-    		   myData.close();
-    		   //order.formatSummary();
-    		   JOptionPane.showMessageDialog(this, "Your order is placed and all the hampers are successfully created.");
-    		   System.exit(0);
+    		   myData.updateDatabase();
+    		   System.out.println(order.formatSummary());
+    		   try {
+				myData.refreshOriginalInventoryWhenOrderSuccess();
+			} catch (CloneNotSupportedException e) {
+				
+				e.printStackTrace();
+			}
+    		   this.order = new Order();
+               maleInput.setText("");
+               femaleInput.setText("");
+               o8Input.setText("");
+               u8Input.setText("");
+    		   JOptionPane.showMessageDialog(this, "Your order is placed and all the hampers are successfully created.\nPlease hit ok to start another order or press cross button at the top right corner");
+    		  
     	   }
-    	   else
-    		   myData.close();
-    		   JOptionPane.showMessageDialog(this, "Sorry! We connot process your order because of insufficient food items in the inventory.");
-    		   System.exit(0);
+    	   else {
+    		try {
+				myData.refreshUpdatedInventoryWhenOrderFails();
+			} catch (CloneNotSupportedException e) {
+	
+				e.printStackTrace();
+			}
+    	       this.order = new Order();
+               maleInput.setText("");
+               femaleInput.setText("");
+               o8Input.setText("");
+               u8Input.setText("");
+    		   JOptionPane.showMessageDialog(this, "Sorry! We connot process your order because of insufficient food items in the inventory.\nPlease hit ok to start another order or close the program");
+    	   } 
     		   
 
        }
@@ -253,4 +273,4 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener{
     }
 
         
-} 
+}  
