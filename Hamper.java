@@ -11,6 +11,7 @@ public class Hamper {
 	private final double TOTAL_OTHER;
 	private final double TOTAL_CALORIES;
 	private boolean valid = false;
+	private  FoodItem dummyFood = new FoodItem(-1,"",-1,-1,-1,-1,-1);
 	private ArrayList<FoodItem> hamperItems = new ArrayList<>();
 	
 	public Hamper(SQLData myData, int male, int female,  int under8, int above8){
@@ -46,7 +47,8 @@ public class Hamper {
 	public ArrayList<FoodItem> getHamperItems(){
 		return 	this.hamperItems ;
 	}
-	
+
+    
     public double getTotalWholeGrains(){
         return 	this.TOTAL_WHOLE_GRAIN_CONTENT;
     }
@@ -80,7 +82,7 @@ public class Hamper {
 		ArrayList<FoodItem> foodInsideInventory = inventory.getInventoryItems();
 		if(valid){
 		    for(int i = 0; i<hamperItems.size();i++){
-				foodInsideInventory.set(hamperItems.get(i).getItemID()-1, null);
+				foodInsideInventory.set(hamperItems.get(i).getItemID()-1, this.dummyFood);
 			}
         }					
 	}
@@ -92,8 +94,48 @@ public class Hamper {
     public void setValid(boolean validity){
         this.valid = validity;
     }
+    private void checkBeforeAdd(FoodItem food) {
+    	
+		boolean checkForDuplicate = false;
+		for(int j=0;j<hamperItems.size();j++) {
+			if(hamperItems.get(j).getItemID()==food.getItemID()) {
+				checkForDuplicate = true;
+			}
+		}
+		if(!checkForDuplicate) {
+			hamperItems.add(food);
+		}
+    }
+
+
     
     public void fillHamper(){
+    	
+    	Inventory inventory = myData.getUpdatedInventory();
+    	ArrayList<FoodItem> items = inventory.getInventoryItems();
+    	
+    	int wg = 0;
+    	int fv = 0;
+    	int pro = 0;
+    	int other = 0;
+    	int cal=0;
+    	
+    	for(int i = 0; i<items.size();i++) {
+    		if(!items.get(i).getName().equals("")) {
+    			hamperItems.add(items.get(i));
+    			wg+=items.get(i).getGrainContent()*items.get(i).getCalories()*0.01;
+    			fv+=items.get(i).getFVContent()*items.get(i).getCalories()*0.01;
+    		    pro+=items.get(i).getProContent()*items.get(i).getCalories()*0.01;
+    		    other+=items.get(i).getOtherContent()*items.get(i).getCalories()*0.01;
+    		    cal+=items.get(i).getCalories()*items.get(i).getCalories()*0.01;
 
+    		}
+    		if(wg>=TOTAL_WHOLE_GRAIN_CONTENT&&fv>=TOTAL_FV&&pro>=TOTAL_PROTEIN&&other>=TOTAL_OTHER&&cal>=TOTAL_CALORIES) {
+    			valid=true;
+    			break;
+    		}
+    	}
+     
+    	
     }
 }
