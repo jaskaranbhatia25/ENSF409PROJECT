@@ -41,7 +41,7 @@ public class Hamper {
 					    + myData.getClients().get(2).getOther()*under8*0.01*under8Calories 
 					    + myData.getClients().get(3).getOther()*above8*0.01*over8Calories)*7;
 		
-        this.TOTAL_CALORIES =  (maleCalories + femaleCalories + under8Calories + over8Calories)*7;
+        this.TOTAL_CALORIES =  (maleCalories*male + femaleCalories*female + under8Calories*under8 + over8Calories*above8)*7;
 	}	
 	
 	public ArrayList<FoodItem> getHamperItems(){
@@ -94,18 +94,18 @@ public class Hamper {
     public void setValid(boolean validity){
         this.valid = validity;
     }
-    private void checkBeforeAdd(FoodItem food) {
-    	
-		boolean checkForDuplicate = false;
-		for(int j=0;j<hamperItems.size();j++) {
-			if(hamperItems.get(j).getItemID()==food.getItemID()) {
-				checkForDuplicate = true;
-			}
-		}
-		if(!checkForDuplicate) {
-			hamperItems.add(food);
-		}
-    }
+//    private void checkBeforeAdd(FoodItem food) {
+//    	
+//		boolean checkForDuplicate = false;
+//		for(int j=0;j<hamperItems.size();j++) {
+//			if(hamperItems.get(j).getItemID()==food.getItemID()) {
+//				checkForDuplicate = true;
+//			}
+//		}
+//		if(!checkForDuplicate) {
+//			hamperItems.add(food);
+//		}
+//    }
 
 
     
@@ -120,7 +120,12 @@ public class Hamper {
     	int other = 0;
     	int cal=0;
     	
-    	for(int i = 0; i<items.size();i++) {
+    	int i=-1;
+    	
+    	//for(int i = 0; i<items.size();i++) {
+    	while(true) {
+    		i++;
+    		
     		if(!items.get(i).getName().equals("")) {
     			hamperItems.add(items.get(i));
     			wg+=items.get(i).getGrainContent()*items.get(i).getCalories()*0.01;
@@ -130,10 +135,14 @@ public class Hamper {
     		    cal+=items.get(i).getCalories()*items.get(i).getCalories()*0.01;
 
     		}
-    		if(wg>=TOTAL_WHOLE_GRAIN_CONTENT&&fv>=TOTAL_FV&&pro>=TOTAL_PROTEIN&&other>=TOTAL_OTHER&&cal>=TOTAL_CALORIES) {
+    		if(wg>=TOTAL_WHOLE_GRAIN_CONTENT && fv>=TOTAL_FV && pro>=TOTAL_PROTEIN && other>=TOTAL_OTHER && cal>=TOTAL_CALORIES) {
     			valid=true;
     			break;
     		}
+    		else {
+    			hamperItems = null;
+    		}
+    			
     	}
      
     	
