@@ -1,4 +1,3 @@
-
 /*
 Copyright Ann Barcomb and Emily Marasco, 2021
 Licensed under GPL v3
@@ -17,6 +16,8 @@ import java.awt.FlowLayout;
 
 @SuppressWarnings("serial")
 public class GUIOrder extends JFrame implements ActionListener, MouseListener{
+	
+	private int numOfOrders = 0;
 
 	private Order order;
 	private SQLData myData;
@@ -50,12 +51,15 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener{
 		this.myData = myData;
 		this.myData.connectDatabase();
 		
-        setupGUI();
+		JOptionPane.showMessageDialog(this,"Thank you for using our hamper ordering system. Please hit ok to start a new order.");
+		setupGUI();
         setSize(350,300);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);        
         
     }
+    
+
     
     public void setupGUI(){
         
@@ -75,10 +79,10 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener{
         o8Input.addMouseListener(this);
         u8Input.addMouseListener(this);
         
-        this.submitInfo = new JButton("Submit");
+        this.submitInfo = new JButton("Submit order");
         submitInfo.addActionListener(this);
 		
-        this.addFamily = new JButton("Add next family");
+        this.addFamily = new JButton("Save family information");
         addFamily.addActionListener(this); 
 		
         JPanel headerPanel = new JPanel();
@@ -125,6 +129,8 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener{
        }
        if(event.getSource()== submitInfo) {
     	   ArrayList<Family> families = order.getFamilies();
+    	   
+    	   
     	   for(int i=0;i<families.size();i++) {
     		   Family family = families.get(i);
     		   family.createHamper(this.myData,  family.getNumOfMales(), family.getNumOfFemales(), family.getNumOfChildrenOver8(), family.getNumOfChildrenUnder8());
@@ -132,10 +138,12 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener{
     		   hamper.fillHamper();
     		   hamper.updateInventory();
     	   }
+    	   
     	   order.validateOrder();
-    	   if(order.getValidOrder()) {
+    	   if(order.getValidOrder() ) {
     		   myData.updateDatabase();
-    		   System.out.println(order.formatSummary());
+    		   numOfOrders++;
+    		   System.out.println(order.formatSummary(numOfOrders));
     		   try {
 				myData.refreshOriginalInventoryWhenOrderSuccess();
 			} catch (CloneNotSupportedException e) {
@@ -151,20 +159,24 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener{
     		  
     	   }
     	   else {
-    		try {
-				myData.refreshUpdatedInventoryWhenOrderFails();
-			} catch (CloneNotSupportedException e) {
-	
-				e.printStackTrace();
-			}
-    	       this.order = new Order();
-               maleInput.setText("");
-               femaleInput.setText("");
-               o8Input.setText("");
-               u8Input.setText("");
-    		   JOptionPane.showMessageDialog(this, "Sorry! We connot process your order because of insufficient food items in the inventory.\nPlease hit ok to start another order or close the program");
-    	   } 
-    		   
+    		   if(order.getFamilies().size()==0) {
+    			   JOptionPane.showMessageDialog(this, "An order must have atleast 1 family.");
+    		   }
+    		   else {
+    	    		try {
+    					myData.refreshUpdatedInventoryWhenOrderFails();
+    				} catch (CloneNotSupportedException e) {
+    		
+    					e.printStackTrace();
+    				}
+    	    	       this.order = new Order();
+    	               maleInput.setText("");
+    	               femaleInput.setText("");
+    	               o8Input.setText("");
+    	               u8Input.setText("");
+    	    		   JOptionPane.showMessageDialog(this, "Sorry! We connot process your order because of insufficient food items in the inventory.\nPlease hit ok to start another order or close the program");
+    	    	   } 
+    		   }
 
        }
        
@@ -266,11 +278,14 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener{
 			else
                 JOptionPane.showMessageDialog(this, u8 + " is invalid value for the number of children under eight.");
         }		
-        
+        if(numOfMales==0 && numOfFemales==0 && over8==0 && under8==0) {
+        	allInputValid = false;
+        	JOptionPane.showMessageDialog(this, "You cannot create a family with zero members.");
+        }
 
         return allInputValid;
         
     }
 
         
-}  
+} 
