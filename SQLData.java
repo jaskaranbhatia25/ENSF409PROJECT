@@ -20,6 +20,14 @@ public class SQLData {
 		this.USERNAME = username;
 		this.PASSWORD = password;
 	}
+	public void refreshUpdatedInventoryWhenOrderFails() throws CloneNotSupportedException {
+		Inventory refreshedUpdatedInventory = (Inventory)originalInventory.clone();
+		this.updatedInventory = refreshedUpdatedInventory;
+	}
+	public void refreshOriginalInventoryWhenOrderSuccess() throws CloneNotSupportedException {
+		Inventory refreshedOriginalInventory = (Inventory)updatedInventory.clone();
+		this.originalInventory = refreshedOriginalInventory;
+	}	
 	
 	public void connectDatabase() throws CloneNotSupportedException {
 		
@@ -33,7 +41,7 @@ public class SQLData {
             }	
             resultsAvailableFood = myStmt.executeQuery("SELECT * FROM " + "AVAILABLE_FOOD");
             while(resultsAvailableFood.next()){
-            	FoodItem foodItem = new FoodItem(resultsClient.getInt("ItemID"), resultsClient.getString("Name"), resultsClient.getInt("GrainContent"), resultsClient.getInt("FVContent"), resultsClient.getInt("ProContent"), resultsClient.getInt("Other"), resultsClient.getInt("Calories"));
+            	FoodItem foodItem = new FoodItem(resultsAvailableFood.getInt("ItemID"), resultsAvailableFood.getString("Name"), resultsAvailableFood.getInt("GrainContent"), resultsAvailableFood.getInt("FVContent"), resultsAvailableFood.getInt("ProContent"), resultsAvailableFood.getInt("Other"), resultsAvailableFood.getInt("Calories"));
             	this.originalInventory.getInventoryItems().add(foodItem);
             }
 	    	this.updatedInventory = (Inventory)this.originalInventory.clone();	        
@@ -67,9 +75,11 @@ public class SQLData {
 	}
 	
 	public void updateDatabase(){
+		
+
 	
 		for(int i = 0; i< updatedInventory.getInventoryItems().size();i++){
-			if(updatedInventory.getInventoryItems().get(i)==null){
+			if(updatedInventory.getInventoryItems().get(i).getName().equals("")){
 				delete(i+1);
 			}
 		}	      	
