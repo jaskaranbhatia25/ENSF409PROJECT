@@ -1,3 +1,9 @@
+/**
+@author Aleksander Rudolf, Ansh Singh, Jaskaran Bhatia
+@version 2.0
+@since 1.0 - Mar. 28/2022
+*/
+
 package edu.ucalgary.ensf409;
 
 import java.time.LocalDate;
@@ -10,37 +16,61 @@ public class Order implements OrderSummary {
 	private String name = "Order";
 	private LocalDate date = LocalDate.now();
 	
+	public Order() {}
 	
-	public Order() {
-		
-	}
-	
+	/**
+	 * 
+	 * @param numOfMales
+	 * @param numOfFemales
+	 * @param numOfChildrenOver8
+	 * @param numOfChildrenUnder8
+	 * @throws IllegalArgumentException
+	 */
 	public void addFamily(int numOfMales, int numOfFemales, int numOfChildrenOver8, int numOfChildrenUnder8) throws IllegalArgumentException {
 		Family newFamily = new Family(numOfMales, numOfFemales, numOfChildrenOver8, numOfChildrenUnder8);
 		this.families.add(newFamily);
 	}
 	
-
+	/**
+	 * 
+	 * @return ArrayList<Family>
+	 */
 	public ArrayList<Family> getFamilies(){
 		return this.families;
 	}
 	
+	/**
+	 * 
+	 * @param index
+	 * @return Family
+	 */
 	public Family getFamily(int index) {
 		return this.families.get(index);
 	}
 	
+	/**
+	 * 
+	 * @param validity
+	 */
 	public void setValidOrder(boolean validity) {
 		this.validOrder = validity;
 	}
 	
+	/**
+	 * 
+	 * @return boolean
+	 */
 	public boolean getValidOrder() {
 		return this.validOrder;
 	}
 	
+	/*
+	 * 
+	 */
 	public void validateOrder() {
 		if(families.size()!=0) {
 			for(int i = 0; i < this.families.size(); i++) {
-				if(families.get(i).getHamper().getValid() == false) {
+				if(!families.get(i).getHamper().getValid()) {
 					return;
 				}
 			}
@@ -49,6 +79,10 @@ public class Order implements OrderSummary {
 
 	}
 	
+	/**
+	 * @param numOfOrders
+	 * @return String
+	 */
 	@Override
 	public String formatSummary(int numOfOrders) {
 		StringBuilder formattedSummary = new StringBuilder();
