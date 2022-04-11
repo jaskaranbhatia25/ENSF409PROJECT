@@ -15,7 +15,7 @@ public class Family {
 	private Hamper hamper;
 	
 	/**
-	 * 
+	 * constructor for Family
 	 * @param numOfMales
 	 * @param numOfFemales
 	 * @param numOfChildrenOver8
@@ -29,46 +29,46 @@ public class Family {
 	}
 	
 	/**
-	 * 
-	 * @return int
+	 * getter method for the number of males
+	 * @return int 
 	 */
 	public int getNumOfMales() {
 		return this.NUM_OF_MALES;
 	}
 	
 	/**
-	 * 
-	 * @return int
+	 * getter method for the number of females
+	 * @return int 
 	 */
 	public int getNumOfFemales() {
 		return this.NUM_OF_FEMALES;
 	}
 	
 	/**
-	 * 
-	 * @return int
+	 * getter method for the number of female
+	 * @return int 
 	 */
 	public int getNumOfChildrenOver8() {
 		return this.NUM_OF_CHILDREN_OVER8;
 	}
 	
 	/**
-	 * 
-	 * @return int
+	 * getter method for the number of children under 8
+	 * @return int 
 	 */
 	public int getNumOfChildrenUnder8() {
 		return this.NUM_OF_CHILDREN_UNDER8;
 	}
 	/**
-	 * 
-	 * @return Hamper
+	 * getter method for the hamper
+	 * @return Hamper 
 	 */
 	public Hamper getHamper() {
 		return this.hamper;
 	}
 	
 	/**
-	 * 
+	 * this calls the hamper constructor and sets all the fiels by communicating with the SQLData
 	 * @param myData
 	 * @param numOfMales
 	 * @param numOfFemales
