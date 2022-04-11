@@ -12,19 +12,13 @@ import java.util.Iterator;
 public class Inventory implements Cloneable {
 	
 	private ArrayList<FoodItem> inventoryItems = new ArrayList<FoodItem>();
-	
+	/**
+	 * default constructor for inventory
+	 */
 	public Inventory() {}
 	
 	/**
-	 * 
-	 * @param index
-	 */
-	public void removeItem(int index) {
-		inventoryItems .set(index -1, null);	
-	}	
-	
-	/**
-	 * 
+	 * getter for inventoryItems
 	 * @return ArrayList<FoodItem>
 	 */
 	public ArrayList<FoodItem> getInventoryItems() {
@@ -32,7 +26,7 @@ public class Inventory implements Cloneable {
 	}
 	
 	/**
-	 * 
+	 * returns a FoodItem at particular index at ArrayList
 	 * @param index
 	 * @return FoodItem
 	 */
@@ -41,14 +35,14 @@ public class Inventory implements Cloneable {
     }		
 	
     /**
-     * 
+     * Clones Inventory
      * @return Object
      */
 	public Object clone() throws CloneNotSupportedException {
 		Inventory copy = (Inventory)super.clone();
 		copy.inventoryItems = new ArrayList<FoodItem>();
 		Iterator<FoodItem> iterator = this.inventoryItems.iterator();
-
+        // This while loops clones every element of ArrayList of FoodItem
 		while(iterator.hasNext()) {
 			copy.inventoryItems.add((FoodItem)iterator.next().clone());
 		}
