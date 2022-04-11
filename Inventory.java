@@ -1,27 +1,49 @@
+/**
+@author Aleksander Rudolf, Ansh Singh, Jaskaran Bhatia
+@version 2.0
+@since 1.0 - Mar. 28/2022
+*/
+
 package edu.ucalgary.ensf409;
 
-import java.util.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Inventory implements Cloneable {
 	
-	private ArrayList<FoodItem> inventoryItems = new ArrayList<>();
+	private ArrayList<FoodItem> inventoryItems = new ArrayList<FoodItem>();
 	
-	public Inventory(){}
+	public Inventory() {}
 	
-	public void removeItem(int index){
+	/**
+	 * 
+	 * @param index
+	 */
+	public void removeItem(int index) {
 		inventoryItems .set(index -1, null);	
 	}	
 	
-	public ArrayList<FoodItem> getInventoryItems(){
+	/**
+	 * 
+	 * @return ArrayList<FoodItem>
+	 */
+	public ArrayList<FoodItem> getInventoryItems() {
 		return inventoryItems ;
 	}
 	
-    public FoodItem getInventoryItem(int index){
+	/**
+	 * 
+	 * @param index
+	 * @return FoodItem
+	 */
+    public FoodItem getInventoryItem(int index) {
         return inventoryItems.get(index);
     }		
 	
+    /**
+     * 
+     * @return Object
+     */
 	public Object clone() throws CloneNotSupportedException {
 		Inventory copy = (Inventory)super.clone();
 		copy.inventoryItems = new ArrayList<FoodItem>();
