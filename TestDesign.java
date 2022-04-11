@@ -204,6 +204,35 @@ public class TestDesign {
     	String actualOutput = testOrder.formatSummary();
     	assertEquals("formatSummaray did not match the expected output", expectedOutput, actualOutput);
     }
+    @Test
+    /*
+     * This test checks for whether checkGaps determine right deficiencies
+     */
+	public void testCheckGaps() {
+		String expectedString = "whole grains,fruits or veggies,protein,other content,";
+		
+		fillSQLData();
+		Hamper testHamper = new Hamper(testData, 1, 1, 1, 1);
+		testHamper.setActualWholeGrains(0);
+		testHamper.setActualFV(0);
+		testHamper.setActualProtein(0);
+		testHamper.setActualOther(0);
+		testHamper.setActualCalories(testHamper.getTotalCalories()+1);
+		
+		assertEquals("checkGaps method did not identify the correct deficiences.", expectedString, testHamper.checkGaps());
+	}
+	
+	@Test
+	/*
+	 * This tests check if the gapMessage returns expected string
+	 */
+	public void testGetGapMessage() {
+		String expectedString = "";
+		
+		Order testOrder = new Order();
+		
+		assertEquals("getGapMessage did not return the correct string", expectedString, testOrder.getGapMessage());
+	}
     
 	/* This test checks to see if the getInventoryItems() method of the Inventory class successfully returns
 	a FoodItem ArrayList.*/
@@ -406,11 +435,9 @@ public class TestDesign {
         assertEquals("Method getValid did not return the expected true when inventory had insufficient fooditems: ", true, myHamper.getValid());		
 	}	
 		
-	/* This test checks that weather FoodItems in the array has nutrional attributes greater than
-    equal to the target values of nutrional needs, however this test does not account for
-    how much food is wasted or if this is the best combination or not*/	 
+	/* This test checks for the best possible combo of foodItems for the hamper such that it wastes ,minimum food*/
 	@Test
-	public void testHamperfillHamperWhenSufficientFoodInInventory(){
+	public void testHamperfillHamperBestComboWhenSufficientFoodInInventory(){
 		fillSQLData();
 	    Order myOrder = new Order();
 		myOrder.addFamily(0,0,0,1);
@@ -418,58 +445,27 @@ public class TestDesign {
 		myFamily.createHamper(testData, myFamily.getNumOfMales() , myFamily.getNumOfFemales(), myFamily.getNumOfChildrenOver8(), myFamily.getNumOfChildrenUnder8());	
 		Hamper myHamper = myFamily.getHamper();
 		myHamper.fillHamper();
+		for(int i= 0;i<myHamper.getHamperItems().size();i++) {
+			System.out.println(myHamper.getHamperItems().get(i).getName());
+		}
 		
-		ArrayList<FoodItem> items = myHamper.getHamperItems();
-	
-		double wg =0;
-		double fv = 0;
-		double pro = 0;
-		double other = 0;
-		double cal = 0;
 		
-		for(int i=0; i<items.size();i++){
-			wg+=items.get(i).getGrainContent()*items.get(i).getCalories()*0.01;
-			fv+=items.get(i).getFVContent()*items.get(i).getCalories()*0.01;
-			pro+=items.get(i).getProContent()*items.get(i).getCalories()*0.01;
-			other+=items.get(i).getOtherContent()*items.get(i).getCalories()*0.01;
-		    cal+=items.get(i).getCalories();
-	    }
-        assertTrue( wg>=myHamper.getTotalWholeGrains() && fv>=myHamper.getTotalFV()&& pro>=myHamper.getTotalProtein() && other>=myHamper.getTotalOther() && cal>=myHamper.getTotalCalories()) ;
+		ArrayList<FoodItem> actualItems = myHamper.getHamperItems();
+		ArrayList<FoodItem> expectedItems = new ArrayList<>();
+		expectedItems.add(tomatoSauce);
+		expectedItems.add(beef);
+		expectedItems.add(apples);
+		for(int i= 0;i<expectedItems.size();i++) {
+			assertTrue("Fillhamper did not give the best possible hamper combo",actualItems.get(i).getName().equals(expectedItems.get(i).getName()));
+		}
+        
 	}	
 	
-	/* This test is to check if the fill hamper sets the FoodItems Arraylist inside 
-	the hamper to null when it cannot fill the hamper requirements and does not meet the target nutrional needs values*/
-	@Test
-	public void testHamperfillHamperWhenInsufficientFoodInInventory(){
-		
-		SQLData testData = new SQLData("ansh","aleks","jassi");
-	    ClientType male = new ClientType(0, "male", 20, 30, 40, 10, 10);
-	    ClientType female = new ClientType(1, "female", 20, 30, 40, 10, 50);
-	    ClientType childover8 = new ClientType(2, "childover8", 20, 30, 40, 10, 30);
-	    ClientType childunder8 = new ClientType(3, "childunder8", 20, 30, 40, 10, 15);
-	    testData.getClients().add(male);
-	    testData.getClients().add(female);
-	    testData.getClients().add(childover8);
-	    testData.getClients().add(childunder8);
-
-	    FoodItem pasta = new FoodItem(1,"Pasta",  80, 10, 0, 10, 75);
-	    FoodItem beef = new FoodItem(2,"Beef",  10, 0, 80, 10, 100);
-	    testData.getUpdatedInventory().getInventoryItems().add(pasta);
-	    testData.getUpdatedInventory().getInventoryItems().add(beef);		
-	    Order myOrder = new Order();
-		myOrder.addFamily(1,2,2,1);
-		Family myFamily = myOrder.getFamily(0);	
-		 myFamily.createHamper(testData, myFamily.getNumOfMales() , myFamily.getNumOfFemales(), myFamily.getNumOfChildrenOver8(), myFamily.getNumOfChildrenUnder8());	
-		 Hamper myHamper = myFamily.getHamper();
-		 myHamper.fillHamper();
-		ArrayList<FoodItem> myItems = myHamper.getHamperItems();
-		assertEquals("FoodItems did not have zero items after we called fillHamper for insufficient fooditems in inventory .",0, myItems.size());
-	}
 	
 	/* If the valid field of the hamper is true, we expect that updatedInventory field of the SQLData class needs to be updated.
 	which means that FoodItems which are inserted inside arraylist of Hamper should no longer be part of UpdatedInventory, since 
 	we are going to be consistent with indices of the ArrayList in Inventory and ItemID of every FoodItem i.e if the FoodItem has ItemID 7,
-	then it will be 7th index inside the ArrayList of FoodItems inside Inventory,so if we delete an item, we set that index of the arraylist to be null,
+	then it will be 6th index inside the ArrayList of FoodItems inside Inventory,so if we delete an item, we set that index of the arraylist to be null,
 	so after we update Inventory, UpdatedInventory field will have ArrayList of FoodItems and all the foodItems inside hamper with their respected
 	ItemIDs will be null inside Inventory*/
     @Test
