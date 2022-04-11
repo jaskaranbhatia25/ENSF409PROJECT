@@ -1,6 +1,6 @@
 /**
 @author Aleksander Rudolf, Ansh Singh, Jaskaran Bhatia
-@version 2.0
+@version 3.0
 @since 1.0 - Mar. 28/2022
 */
 
@@ -13,13 +13,21 @@ package edu.ucalgary.ensf409;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import java.time.LocalDate;
+
 import java.util.ArrayList;
 
-
+/* All the checks for boundary conditions such as:
+ *  1) Number of any ClientType cannot be less than 0 or greater than 10.
+ *  2) Order cannot be submitted with 0 families added i.e order should have atleast 1 family.
+ *  3) We cannot create a family with 0 family members.
+ *  4) We cannot pass in a String or non-integer value for number of males. females, etc.. inside family constructor
+ *  The above boundary conditions are checked inside the GUIOrder class by ValidateInput method
+ *  So, there are no tests for exceptions or boundary conditions as all the data is filtered before it is passed into any
+ *  constructor with no possible situation that any kind of java exception be thrown.
+ */
 public class TestDesign {
 
-    private SQLData testData = new SQLData();
+    private SQLData testData = new SQLData("ansh","aleks","jassi");
     
     private static final double DELTA = 1e-15;
 	private ClientType male = new ClientType(0, "male", 20, 30, 40, 10, 100);
@@ -35,7 +43,9 @@ public class TestDesign {
 	private FoodItem apples = new FoodItem( 4,"Apples", 30, 50, 10, 10, 50);
 	private FoodItem candy = new FoodItem(5,"Candy",  10, 0, 0, 90, 150);
 
-	
+	/**
+	 * This method fills FoodItems in Inventory and add ClientType to clients ArrayList inside SQLData
+	 */
 	public void fillSQLData() {
 		this.clients.add(male);
 		this.clients.add(female);
@@ -48,9 +58,6 @@ public class TestDesign {
 		this.testData.getUpdatedInventory().getInventoryItems().add(candy);
 
 	}
-
-	/* This test checks if the addFamily() method throws an IllegalArgumentException if an
-	illegal character is used in attempting to add a family object to the Families ArrayList in the Order class.*/
 
 	
 	/* This test checks to see that the setValidOrder() method inside of the Order class properly sets the
@@ -161,7 +168,7 @@ public class TestDesign {
     	Hamper testHamper = testFamily.getHamper();
     	assertNotNull("getHamper returned null, expected not null", testHamper);
     }
-    
+
 	/* This test checks to see if all of the getters for the numOfMales, numOfFemales, numOfChildrenOver8, and numOfChildrenUnder8,
 	for the Family object.*/
     @Test
@@ -187,14 +194,14 @@ public class TestDesign {
     @Test
     public void testOrderSummaryFormatSummary() {
     	fillSQLData();
-    	String expectedOutput = "Hamper Order Form\n\nName: Order 1\nDate: " + LocalDate.now() + "\n\nHamper 1 Items:\n1  Tomato Sauce\n2  Pasta\n3  Beef\n4  Apples";
+    	String expectedOutput = "Hamper Order Form\n\nName:\nDate:\n\nHamper 1 Items:\n1  Tomato Sauce\n2  Pasta\n3  Beef\n4  Apples";
     	Order testOrder = new Order();
     	testOrder.addFamily(0,0,1,0);
     	Family testFamily = testOrder.getFamily(0);
        testFamily.createHamper(testData, testFamily.getNumOfMales() , testFamily.getNumOfFemales(), testFamily.getNumOfChildrenOver8(), testFamily.getNumOfChildrenUnder8());
        Hamper testHamper = testFamily.getHamper();
        testHamper.fillHamper();
-    	String actualOutput = testOrder.formatSummary(1);
+    	String actualOutput = testOrder.formatSummary();
     	assertEquals("formatSummaray did not match the expected output", expectedOutput, actualOutput);
     }
     
@@ -213,7 +220,7 @@ public class TestDesign {
     @Test
     public void testInventoryGetItem() {
     	
-    	SQLData testData = new SQLData();
+    	SQLData testData = new SQLData("ansh","aleks","jassi");
     	
     	FoodItem tomatoSauce = new FoodItem(1,"Tomato Sauce", 0, 80, 10, 10, 50);
     	testData.getUpdatedInventory().getInventoryItems().add(tomatoSauce);
@@ -273,23 +280,41 @@ public class TestDesign {
     	double expectedTotalProtien =  ((0.4*100+2*0.4*50+2*0.4*30+0.40*15)*7);
     	double expectedTotalOther =  ((0.1*100+2*0.1*50+2*0.1*30+0.1*15)*7);
     	double expectedTotalCal =(100+2*50+2*30+15)*7;
-		
+    	double expectedWG =  40.3;	
+    	double expectedFV =  20.3;
+    	double expectedProtien =  21.21;
+    	double expectedOther =  53.32;
+    	double expectedCal = 12.23;
 		Order myOrder = new Order();
 		myOrder.addFamily(1,2,2,1);
 		Family myFamily = myOrder.getFamily(0);
 		myFamily.createHamper(testData, myFamily.getNumOfMales() , myFamily.getNumOfFemales(), myFamily.getNumOfChildrenOver8(), myFamily.getNumOfChildrenUnder8());
 		Hamper myHamper = myFamily.getHamper();
+		myHamper.setActualCalories(expectedCal);
+		myHamper.setActualOther(expectedCal);
+		myHamper.setActualFV(expectedCal);
+		myHamper.setActualProtein(expectedCal);
+		myHamper.setActualWholeGrains(expectedCal);
 		double actualTotalWG =  myHamper.getTotalWholeGrains();
 		double actualTotalFV =  myHamper.getTotalFV();
 		double actualTotalProtien =  myHamper.getTotalProtein();
 		double actualTotalOther =  myHamper.getTotalOther();
 		double actualTotalCal	=  myHamper.getTotalCalories();	
-
+		double actualWG =  myHamper.getActualWholeGrains();
+		double actualFV =  myHamper.getActualFV();
+		double actualProtien =  myHamper.getActualProtein();
+		double actualOther =  myHamper.getActualOther();
+		double actualCal	=  myHamper.getActualCalories();
     	assertEquals("Constructor or Getter for TotalWG gave incorrect value", expectedTotalWG, actualTotalWG, DELTA);
     	assertEquals("Constructor or Getter for TotalFV gave incorrect value", expectedTotalFV, actualTotalFV,DELTA);
     	assertEquals("Constructor or Getter for TotalProtien gave incorrect value", expectedTotalProtien, actualTotalProtien,DELTA);
     	assertEquals("Constructor or Getter for TotalOther gave incorrect value", expectedTotalOther, actualTotalOther,DELTA);
 		assertEquals("Constructor or Getter for TotalCalories gave incorrect value", expectedTotalCal, actualTotalCal,DELTA);
+		assertEquals("Constructor or Getter for TotalWG gave incorrect value", expectedWG, actualWG, DELTA);
+    	assertEquals("Constructor or Getter for TotalFV gave incorrect value", expectedFV, actualFV,DELTA);
+    	assertEquals("Constructor or Getter for TotalProtien gave incorrect value", expectedProtien, actualProtien,DELTA);
+    	assertEquals("Constructor or Getter for TotalOther gave incorrect value", expectedOther, actualOther,DELTA);
+		assertEquals("Constructor or Getter for Calories gave incorrect value", expectedCal, actualCal,DELTA);
     }
 	
     /* This test just makes sure that if setMydata() method 
@@ -341,7 +366,7 @@ public class TestDesign {
 	boolean value false to the field valid, so when we call getValid(), it should return false*/
 	@Test
 	public void testHamperGetValidWhenInsufficientInventoryItems(){
-	   SQLData testData = new SQLData();
+		SQLData testData = new SQLData("ansh","aleks","jassi");
 	   ClientType male = new ClientType(0, "male", 20, 30, 40, 10, 10);
 	   ClientType female = new ClientType(1, "female", 20, 30, 40, 10, 50);
 	   ClientType childover8 = new ClientType(2, "childover8", 20, 30, 40, 10, 30);
@@ -417,7 +442,7 @@ public class TestDesign {
 	@Test
 	public void testHamperfillHamperWhenInsufficientFoodInInventory(){
 		
-	    SQLData testData = new SQLData();
+		SQLData testData = new SQLData("ansh","aleks","jassi");
 	    ClientType male = new ClientType(0, "male", 20, 30, 40, 10, 10);
 	    ClientType female = new ClientType(1, "female", 20, 30, 40, 10, 50);
 	    ClientType childover8 = new ClientType(2, "childover8", 20, 30, 40, 10, 30);
@@ -470,7 +495,7 @@ public class TestDesign {
     @Test
     public void testHamperUpdateInventoryWhenValidIsFalse(){
 		
-	    SQLData testData = new SQLData();
+    	SQLData testData = new SQLData("ansh","aleks","jassi");
 	    ClientType male = new ClientType(0, "male", 20, 30, 40, 10, 10);
 	    ClientType female = new ClientType(1, "female", 20, 30, 40, 10, 50);
 	    ClientType childover8 = new ClientType(2, "childover8", 20, 30, 40, 10, 30);
@@ -562,5 +587,93 @@ public class TestDesign {
 		assertEquals(" getOther gave incorrect value", expectedOther, actualOther,DELTA);
         assertEquals(" getCalories gave incorrect value", expectedCalories, actualCalories,DELTA);
         assertEquals(" getClientID gave incorrect value", expectedclientID, actualclientID,DELTA);		
+	}
+	
+	//SQLData class tests for methods which does not have any connection with SQLData base
+	
+	/*
+	 * This tests check if the getters of SQL data does not return null after we add add a client object to clienType arraylist
+	 * , or when we have Inventory created, the functionality for particular getters for FoodItem and ClientType are tested
+	 * in different junit tests   
+	 */
+	@Test
+	public void testGettersForSQLData() {
+			
+			SQLData testData = new SQLData("alexander","ansh","jaskaran");
+			ArrayList<ClientType> clients = testData.getClients();
+			ClientType male = new ClientType(0, "male", 20, 30, 40, 10, 100);
+			FoodItem tomatoSauce = new FoodItem(1,"Tomato Sauce",0, 80, 10, 10, 50);
+			clients.add(male);
+			testData.getOriginalInventory().getInventoryItems().add(tomatoSauce);
+			testData.getUpdatedInventory().getInventoryItems().add(tomatoSauce);
+			assertNotNull("getOriginalInventory returned null, expected not null", testData.getOriginalInventory());
+			assertNotNull("getUpdatedInventory returned null, expected not null", testData.getUpdatedInventory());
+			assertNotNull("getClients returned null, expected not null", testData.getClients());
+	}
+	
+	
+	/*
+	 * test for setters in SQLData checks if the refrence of the object passed in setter is same 
+	 * as the refrence of the object returned by their respective getters
+	 */
+	@Test
+	public void testSettersForSQLData() {
+			
+			SQLData testData = new SQLData("alexander","ansh","jaskaran");
+			ArrayList<ClientType> clients = new ArrayList<>();
+			Inventory inventory = new Inventory();
+			testData.setClients(clients);
+			testData.setOriginalInventory(inventory);
+			testData.setUpdatedInventory(inventory);
+			assertSame("setOriginalInventory did not set properly",inventory, testData.getOriginalInventory());
+			assertSame("setUpdatedInventory did not set properly",inventory, testData.getUpdatedInventory());
+			assertSame("setClients did not set properly", clients,testData.getClients());
+	}
+	
+	/*
+	 * This test checks that whether original inventory is replaced by deep copy of updated inventory
+	 * this method will only be called when order is successfully made in the actual program
+	 */
+	@Test
+	public void testForRefreshOriginalInventoryWhenOrderSuccess() {
+		fillSQLData();
+		try {
+			testData.refreshOriginalInventoryWhenOrderSuccess();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		} 
+		Inventory original = testData.getOriginalInventory();
+		Inventory updated = testData.getUpdatedInventory();
+        assertFalse("Did not update originalInventory with deep copy of updatedInventory inventory refrences were same",original == updated);
+        assertFalse("Did not update originalInventory with deep copy of updatedInventory because array list refrences were same",original.getInventoryItems() == updated.getInventoryItems());
+        assertFalse("Did not update originalInventory with deep copy of updatedInventory because FoodItem at first index was not deep copy",original.getInventoryItems().get(0) == updated.getInventoryItems().get(0));            
+	}
+	/*
+	 * This test checks that whether updated inventory is replaced by deep copy of original inventory i.e before update
+	 * this method will only be called when order is unsuccessfull in the actual program
+	 */	
+	@Test
+	public void testForRefreshUpdatedInventoryWhenOrderFails() {
+		FoodItem tomatoSauce = new FoodItem(1,"Tomato Sauce",0, 80, 10, 10, 50);
+	    FoodItem pasta = new FoodItem( 2,"Pasta", 80, 10, 0, 10, 75);
+		FoodItem beef = new FoodItem( 3,"Beef", 10, 0, 80, 10, 100);
+	    FoodItem apples = new FoodItem( 4,"Apples", 30, 50, 10, 10, 50);
+		FoodItem candy = new FoodItem(5,"Candy",  10, 0, 0, 90, 150);
+		SQLData testData = new SQLData("ansh","aleks","jassi");
+		testData.getOriginalInventory().getInventoryItems().add(tomatoSauce);
+		testData.getOriginalInventory().getInventoryItems().add(pasta);
+		testData.getOriginalInventory().getInventoryItems().add(beef);
+		testData.getOriginalInventory().getInventoryItems().add(apples);
+		testData.getOriginalInventory().getInventoryItems().add(candy);
+		try {
+			testData.refreshUpdatedInventoryWhenOrderFails();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		} 
+		Inventory original = testData.getOriginalInventory();
+		Inventory updated = testData.getUpdatedInventory();
+        assertFalse("Did not update updatedInventory with deep copy of originalInventory as inventory refrences were same",original == updated);
+        assertFalse("Did not update updatedInventory with deep copy of originalInventory because array list refrences were same",original.getInventoryItems() == updated.getInventoryItems());
+        assertFalse("Did not update updatedInventory with deep copy of originalInventory because FoodItem at first index was not deep copy.",original.getInventoryItems().get(0) == updated.getInventoryItems().get(0));            
 	}
 }
