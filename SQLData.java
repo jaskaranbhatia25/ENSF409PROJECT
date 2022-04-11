@@ -148,4 +148,26 @@ public class SQLData {
 	public ArrayList<ClientType> getClients() {
 		return this.clients;
 	}
-}
+
+    /**
+     * setter for original inventory
+     * @param inventory
+     */
+    public void setOriginalInventory(Inventory inventory) {
+		 this.originalInventory = inventory;
+	}
+	/**
+	 * setter for updated inventory
+	 * @param inventory
+	 */
+	public void setUpdatedInventory(Inventory inventory) {
+		this.updatedInventory = inventory;
+	}
+	/**
+	 * setter for Arraylist of Clients
+	 * @param clients
+	 */
+	public void setClients(ArrayList<ClientType> clients) {
+		 this.clients = clients;
+	}
+}	
