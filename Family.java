@@ -1,3 +1,9 @@
+/**
+@author Aleksander Rudolf, Ansh Singh, Jaskaran Bhatia
+@version 2.0
+@since 1.0 - Mar. 28/2022
+*/
+
 package edu.ucalgary.ensf409;
 
 public class Family {
@@ -8,6 +14,13 @@ public class Family {
 	private final int NUM_OF_CHILDREN_UNDER8;
 	private Hamper hamper;
 	
+	/**
+	 * 
+	 * @param numOfMales
+	 * @param numOfFemales
+	 * @param numOfChildrenOver8
+	 * @param numOfChildrenUnder8
+	 */
 	public Family(int numOfMales, int numOfFemales, int numOfChildrenOver8, int numOfChildrenUnder8) {
 		this.NUM_OF_MALES = numOfMales;
 		this.NUM_OF_FEMALES = numOfFemales;
@@ -15,26 +28,53 @@ public class Family {
 		this.NUM_OF_CHILDREN_UNDER8 = numOfChildrenUnder8;
 	}
 	
+	/**
+	 * 
+	 * @return int
+	 */
 	public int getNumOfMales() {
 		return this.NUM_OF_MALES;
 	}
 	
+	/**
+	 * 
+	 * @return int
+	 */
 	public int getNumOfFemales() {
 		return this.NUM_OF_FEMALES;
 	}
 	
+	/**
+	 * 
+	 * @return int
+	 */
 	public int getNumOfChildrenOver8() {
 		return this.NUM_OF_CHILDREN_OVER8;
 	}
 	
+	/**
+	 * 
+	 * @return int
+	 */
 	public int getNumOfChildrenUnder8() {
 		return this.NUM_OF_CHILDREN_UNDER8;
 	}
-	
+	/**
+	 * 
+	 * @return Hamper
+	 */
 	public Hamper getHamper() {
 		return this.hamper;
 	}
 	
+	/**
+	 * 
+	 * @param myData
+	 * @param numOfMales
+	 * @param numOfFemales
+	 * @param numOfChildrenOver8
+	 * @param numOfChildrenUnder8
+	 */
 	public void createHamper(SQLData myData, int numOfMales, int numOfFemales, int numOfChildrenOver8, int numOfChildrenUnder8) {
 		this.hamper = new Hamper(myData, numOfMales, numOfFemales, numOfChildrenOver8, numOfChildrenUnder8);
 	}
