@@ -1,3 +1,9 @@
+/**
+@author Aleksander Rudolf, Ansh Singh, Jaskaran Bhatia
+@version 2.0
+@since 1.0 - Mar. 28/2022
+*/
+
 package edu.ucalgary.ensf409;
 
 public class FoodItem implements Cloneable {
@@ -10,7 +16,17 @@ public class FoodItem implements Cloneable {
 	private final int CALORIES;
 	private final String NAME;
 	
-	public FoodItem(int itemID, String name, int grainContent, int fvContent, int proContent, int other, int calories){
+	/**
+	 * 
+	 * @param itemID
+	 * @param name
+	 * @param grainContent
+	 * @param fvContent
+	 * @param proContent
+	 * @param other
+	 * @param calories
+	 */
+	public FoodItem(int itemID, String name, int grainContent, int fvContent, int proContent, int other, int calories) {
 		this.ITEM_ID = itemID;
 		this.NAME = name;
 		this.GRAIN_CONTENT = grainContent;
@@ -19,35 +35,67 @@ public class FoodItem implements Cloneable {
 		this.OTHER = other;
 		this.CALORIES = calories;
 	}
-		
-    public String getName(){
+	
+	/**
+	 * 
+	 * @return String
+	 */
+    public String getName() {
 		return this.NAME;
 	}
     
-	public int getItemID(){
+    /**
+     * 
+     * @return int
+     */
+	public int getItemID() {
 		return this.ITEM_ID;
 	}
 	
-	public int getGrainContent(){
+    /**
+     * 
+     * @return int
+     */
+	public int getGrainContent() {
 		return this.GRAIN_CONTENT;
 	}
 	
-	public int getFVContent(){
+    /**
+     * 
+     * @return int
+     */
+	public int getFVContent() {
 		return this.FV_CONTENT;
 	}
 	
-	public int getProContent(){
+    /**
+     * 
+     * @return int
+     */
+	public int getProContent() {
 		return this.PRO_CONTENT;
 	}
 	
-	public int OtherContent(){
+    /**
+     * 
+     * @return int
+     */
+	public int getOtherContent() {
 		return this.OTHER;
 	}
 	
-	public int getCalories(){
+    /**
+     * 
+     * @return int
+     */
+	public int getCalories() {
 		return this.CALORIES;
 	}
 	
+    /**
+     * 
+     * @return Object
+     */
 	public Object clone() throws CloneNotSupportedException {
 		return super.clone();
 	}
