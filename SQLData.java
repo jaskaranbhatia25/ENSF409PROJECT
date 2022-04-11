@@ -33,11 +33,10 @@ public class SQLData {
 		this.PASSWORD = password;
 	}
 	
-	public SQLData() {}
 	
 	/*
-	 *   this means that whenever an order fails,  the updated inventory will be
-	 *    replaced back by the original inventory
+	 *   this method is called  whenever an order fails,  the updated inventory will be
+	 *    replaced back by the original inventory i.e inventory before any update
 	 */ 
 	public void refreshUpdatedInventoryWhenOrderFails() throws CloneNotSupportedException {
 		Inventory refreshedUpdatedInventory = (Inventory)originalInventory.clone();
@@ -45,8 +44,8 @@ public class SQLData {
 	}
 	
 	/*
-	 * refreshOriginalInventoryWhenOrderSuccess clone method for SQLData class, this means that whenever 
-	 * an order succeeds, the original inventory will be replaced by the updated inventory
+	 * refreshOriginalInventoryWhenOrderSuccess  is called when order is successfully made, 
+	 * , the original inventory will be replaced by the updated inventory
 	 */
 	public void refreshOriginalInventoryWhenOrderSuccess() throws CloneNotSupportedException {
 		Inventory refreshedOriginalInventory = (Inventory)updatedInventory.clone();
@@ -54,22 +53,27 @@ public class SQLData {
 	}	
 	
 	/* this method is for making a connection between the database
-	 * 
+	 * ArrayList<ClientType> is filled up by ClientType objects loaded from database
+	 * Inventory is filled from the database
 	 */
 	public void connectDatabase() throws CloneNotSupportedException {
         try {
             dbConnect = DriverManager.getConnection(this.DBURL, this.USERNAME , this.PASSWORD);
             Statement myStmt = dbConnect.createStatement();
             resultsClient = myStmt.executeQuery("SELECT * FROM " + "DAILY_CLIENT_NEEDS");
+            // This loop adds ClienType from the daily_client_needs table by creating object of ClientType
             while (resultsClient.next()) {
             	ClientType client = new ClientType(resultsClient.getInt("ClientID"), resultsClient.getString("Client"), resultsClient.getInt("WholeGrains"), resultsClient.getInt("FruitVeggies"), resultsClient.getInt("Protein"), resultsClient.getInt("Other"), resultsClient.getInt("Calories"));
             	this.clients.add(client);
             }	
             resultsAvailableFood = myStmt.executeQuery("SELECT * FROM " + "AVAILABLE_FOOD");
+            //This while loop creates inventory object and fills arraylist of FoodItem from the Available_Food Table.
             while(resultsAvailableFood.next()) {
             	FoodItem foodItem = new FoodItem(resultsAvailableFood.getInt("ItemID"), resultsAvailableFood.getString("Name"), resultsAvailableFood.getInt("GrainContent"), resultsAvailableFood.getInt("FVContent"), resultsAvailableFood.getInt("ProContent"), resultsAvailableFood.getInt("Other"), resultsAvailableFood.getInt("Calories"));
             	this.originalInventory.getInventoryItems().add(foodItem);
             }
+            //updatedInventory is initialized to be deep copy of original inventory
+            //Original and updated inventory are same at the beggining of first order
 	    	this.updatedInventory = (Inventory)this.originalInventory.clone();	        
             myStmt.close();  
         } catch (SQLException e) {
@@ -78,7 +82,7 @@ public class SQLData {
 	}
 	
 	/*
-	 * 
+	 * Closes connection to the database
 	 */
 	public void close() {
 		try {
@@ -91,7 +95,7 @@ public class SQLData {
 	}   
 	
 	/**
-	 * 
+	 * delete a FoodItem from available_food table with ItemId as primary key
 	 * @param id
 	 */
 	private void delete(int id) {
@@ -107,11 +111,16 @@ public class SQLData {
 	}
 	
 	/* 
-	 * this method is for the updating the inventory after a particular order succeeds or fails
+	 * this method is for the updating the Database after completion of successful order
+	 * All the indices inside inventory which are set to dummyFooDItem which has its name as empty string i.e. ""
+	 * is deleted from the database 
+	 * ItemID of any foodItem is one more than the index
+	 * i.e ItemID = index(inside inventoryItems Arraylist<FoodItem>) + 1
 	 */
 	public void updateDatabase() {
 		for(int i = 0; i< updatedInventory.getInventoryItems().size();i++) {
 			if(updatedInventory.getInventoryItems().get(i).getName().equals("")) {
+				//ItemID = i+1;
 				delete(i+1);
 			}
 		}	      	
