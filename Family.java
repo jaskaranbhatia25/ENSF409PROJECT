@@ -68,7 +68,7 @@ public class Family {
 	}
 	
 	/**
-	 * this calls the hamper constructor and sets all the fiels by communicating with the SQLData
+	 * this calls the hamper constructor and sets all the fields with total values by communicating with the SQLData
 	 * @param myData
 	 * @param numOfMales
 	 * @param numOfFemales
