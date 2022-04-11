@@ -17,7 +17,7 @@ public class ClientType implements Cloneable {
 	private final int CALORIES;
 	
 	/**
-	 * 
+	 * Constructor for ClientType
 	 * @param clientID
 	 * @param client
 	 * @param wholeGrains
@@ -37,7 +37,7 @@ public class ClientType implements Cloneable {
 	}
 	
 	/**
-	 * 
+	 * getter for ClientID
 	 * @return int
 	 */
 	public int getClientID() {
@@ -45,7 +45,7 @@ public class ClientType implements Cloneable {
 	}
 	
 	/**
-	 * 
+	 * getter for Client i.e male, female etc
 	 * @return String
 	 */
 	public String getClient() {
@@ -53,7 +53,7 @@ public class ClientType implements Cloneable {
 	}
 	
 	/**
-	 * 
+	 * getter for WholeGrains content in percentage
 	 * @return int
 	 */
 	public int getWholeGrains() {
@@ -61,7 +61,7 @@ public class ClientType implements Cloneable {
 	}
 	
 	/**
-	 * 
+	 * getter for FruitVeggies content in percentage
 	 * @return int
 	 */
 	public int getFruitVeggies() {
@@ -69,7 +69,7 @@ public class ClientType implements Cloneable {
 	}
 	
 	/**
-	 * 
+	 * getter for Protein content in percentage
 	 * @return int
 	 */
 	public int getProtein() {
@@ -77,7 +77,7 @@ public class ClientType implements Cloneable {
 	}
 	
 	/**
-	 * 
+	 * getter for other content in percentage
 	 * @return int
 	 */
 	public int getOther() {
@@ -85,7 +85,7 @@ public class ClientType implements Cloneable {
 	}
 	
 	/**
-	 * 
+	 * getter for Calories content in percentage
 	 * @return int
 	 */
 	public int getCalories() {
