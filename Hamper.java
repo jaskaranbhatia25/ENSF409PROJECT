@@ -11,12 +11,12 @@ import java.util.*;
 public class Hamper {
 	
 	private SQLData myData;
-	private final double TOTAL_WHOLE_GRAIN;
+	private final double TOTAL_GRAINS;
 	private final double TOTAL_FV;
 	private final double TOTAL_PROTEIN;
 	private final double TOTAL_OTHER;
 	private final double TOTAL_CALORIES;
-	private double actualGrainContent;
+	private double actualGrains;
 	private double actualFV;
 	private double actualProtein;
 	private double actualOther;
@@ -26,7 +26,8 @@ public class Hamper {
 	private ArrayList<FoodItem> hamperItems = new ArrayList<>();
 	
 	/**
-	 * 
+	 * Constructor of hamper 
+	 * This will be called by createHamper method fo the class Family
 	 * @param myData
 	 * @param male
 	 * @param female
@@ -40,7 +41,8 @@ public class Hamper {
 		int under8Calories = myData.getClients().get(2).getCalories();
 		int over8Calories = myData.getClients().get(3).getCalories();
 		this.myData = myData;	
-		this.TOTAL_WHOLE_GRAIN = (myData.getClients().get(0).getWholeGrains()*male*0.01*maleCalories
+		//Calculates total required various nutrional fields
+		this.TOTAL_GRAINS = (myData.getClients().get(0).getWholeGrains()*male*0.01*maleCalories
 									+ myData.getClients().get(1).getWholeGrains()*female*0.01*femaleCalories 
 									+ myData.getClients().get(2).getWholeGrains()*under8*0.01*under8Calories 
 									+ myData.getClients().get(3).getWholeGrains()*above8*0.01*over8Calories)*7;
@@ -72,22 +74,23 @@ public class Hamper {
 	 * @param actualOther
 	 * @param actualCalories
 	 */
-	public Hamper(ArrayList<FoodItem> hamperItems, double actualWholeGrains, double actualFruitVeggies, double actualProtein, double actualOther, double actualCalories) {
-		this.TOTAL_WHOLE_GRAIN = 0;
-		this.TOTAL_FV = 0;
-		this.TOTAL_PROTEIN = 0;
-		this.TOTAL_OTHER = 0;
-		this.TOTAL_CALORIES = 0;
+	public Hamper(ArrayList<FoodItem> hamperItems, double actualGrains, double actualFV, double actualProtein, double actualOther, double actualCalories,
+					double totalGrains, double totalFV, double totalProtein, double totalOther, double totalCalories) {
+		this.TOTAL_GRAINS = totalGrains;
+		this.TOTAL_FV = totalFV;
+		this.TOTAL_PROTEIN = totalProtein;
+		this.TOTAL_OTHER = totalOther;
+		this.TOTAL_CALORIES = totalCalories;
 		this.hamperItems = hamperItems;
-		this.actualGrainContent = actualWholeGrains;
-		this.actualFV = actualFruitVeggies;
+		this.actualGrains = actualGrains;
+		this.actualFV = actualFV;
 		this.actualProtein = actualProtein;
 		this.actualOther = actualOther;
 		this.actualCalories = actualCalories;
 	}
 	
 	/**
-	 * 
+	 * getter for Arraylist of foodItems inside Hamper
 	 * @return ArrayList<FoodItem>
 	 */
 	public ArrayList<FoodItem> getHamperItems(){
@@ -95,15 +98,15 @@ public class Hamper {
 	}
 
     /**
-     * 
+     * getter for required whole grains
      * @return double
      */
     public double getTotalWholeGrains(){
-        return 	this.TOTAL_WHOLE_GRAIN;
+        return 	this.TOTAL_GRAINS;
     }
     
     /**
-     * 
+     * getter for required fruit veggies
      * @return double
      */
     public double getTotalFV(){
@@ -111,7 +114,7 @@ public class Hamper {
 	}	
     
     /**
-     * 
+     * getter for required protein value
      * @return double
      */
 	public double getTotalProtein(){
@@ -119,7 +122,7 @@ public class Hamper {
 	}
 	
     /**
-     * 
+     * getter for required other content
      * @return double
      */
 	public double getTotalOther(){
@@ -127,7 +130,7 @@ public class Hamper {
 	}
 	
     /**
-     * 
+     * getter for required total calories
      * @return double
      */
 	public double getTotalCalories(){
@@ -135,15 +138,15 @@ public class Hamper {
 	}
 	
     /**
-     * 
+     * getter for actual whole grains present inside hamper
      * @return double
      */
     public double getActualWholeGrains(){
-        return 	this.actualGrainContent;
+        return 	this.actualGrains;
     }
     
     /**
-     * 
+     * getter for actual Fv present inside hamper
      * @return double
      */
     public double getActualFV(){
@@ -151,7 +154,7 @@ public class Hamper {
 	}	
     
     /**
-     * 
+     * getter for actual protein present inside the hamper
      * @return double
      */
 	public double getActualProtein(){
@@ -159,7 +162,7 @@ public class Hamper {
 	}
 	
     /**
-     * 
+     * getter for actual other content present inside the hamper
      * @return double
      */
 	public double getActualOther(){
@@ -167,15 +170,53 @@ public class Hamper {
 	}
 	
     /**
-     * 
+     * getter for actual calories present inside the hamper
      * @return double
      */
 	public double getActualCalories(){
 		return this.actualCalories;
 	}
+	/**
+	 * setter for actual WG
+	 * @param num
+	 */
+    public void setActualWholeGrains(double num){
+         	this.actualGrains = num;
+    }
+    
+    /**
+     * setter for actual Fv
+     * @param num
+     */
+    public void setActualFV(double num){
+		  this.actualFV = num;
+	}	
+    
+    /**
+     * setter for actual proteins
+     * @param num
+     */
+	public void setActualProtein(double num){
+		 this.actualProtein = num;
+	}
 	
 	/**
-	 * 
+	 * setter for actual other content
+	 * @param num
+	 */
+	public void setActualOther(double num){
+		 this.actualOther = num;
+	}
+	/**
+	 * setter for actual calories
+	 * @param num
+	 */
+
+	public void setActualCalories(double num){
+		 this.actualCalories = num;
+	}	
+	/**
+	 * getter for mydata
 	 * @return SQLData
 	 */
 	public SQLData getMyData(){
@@ -183,7 +224,7 @@ public class Hamper {
 	}
 	
 	/**
-	 * 
+	 * setter for myData
 	 * @param myData
 	 */
 	public void setMyData(SQLData myData){
@@ -191,6 +232,9 @@ public class Hamper {
 	}
 	
 	/*
+	 * This method updates inventory if the hamper is valid
+	 * All the FoodItems which are added to ArrayList<FoodItem> i.e hamperItems,
+	 * those items inside arrayList of foodItems for updatedInventory is replaced by dummyFood 
 	 * 
 	 */
     public void updateInventory(){
@@ -204,7 +248,7 @@ public class Hamper {
 	}
     
     /**
-     * 
+     * getter for valid
      * @return boolean
      */
 	public boolean getValid(){
@@ -212,7 +256,7 @@ public class Hamper {
 	}
 	
 	/**
-	 * 
+	 * setter for valid
 	 * @param validity
 	 */
     public void setValid(boolean validity){
@@ -274,9 +318,9 @@ public class Hamper {
         			other += allsubsets.get(i).get(j).getOtherContent()*allsubsets.get(i).get(j).getCalories()*0.01;
         			cal += allsubsets.get(i).get(j).getCalories();
         		}
-        		System.out.println("wg" + wg + " fv" + fv + " pro" + pro + " other" + other + " cal" + cal);
-        		if(wg>=TOTAL_WHOLE_GRAIN && fv>=TOTAL_FV && pro>=TOTAL_PROTEIN && other>=TOTAL_OTHER && cal>=TOTAL_CALORIES) {
-        			hamperCombos.add(new Hamper(allsubsets.get(i), wg, fv, pro, other, cal));
+        		//System.out.println("wg" + wg + " fv" + fv + " pro" + pro + " other" + other + " cal" + cal);
+        		if(wg>=TOTAL_GRAINS && fv>=TOTAL_FV && pro>=TOTAL_PROTEIN && other>=TOTAL_OTHER && cal>=TOTAL_CALORIES) {
+        			hamperCombos.add(new Hamper(allsubsets.get(i), wg, fv, pro, other, cal, TOTAL_GRAINS, TOTAL_FV, TOTAL_PROTEIN, TOTAL_OTHER, TOTAL_CALORIES));
         		}
         	}
         	if(!hamperCombos.isEmpty()) {
@@ -294,27 +338,43 @@ public class Hamper {
         	}
     	}
     	else {
-    		double wg = 0;
-    		double fv = 0;
-    		double pro = 0;
-    		double other = 0;
-    		double cal = 0;
+
     		for(int i = 0; i < items.size(); i++) {
-    			if(wg<=TOTAL_WHOLE_GRAIN || fv<=TOTAL_FV || pro<=TOTAL_PROTEIN || other<=TOTAL_OTHER || cal<=TOTAL_CALORIES) {
-    				this.hamperItems.add(items.get(i));
-    				wg+=items.get(i).getGrainContent()*items.get(i).getCalories()*0.01;
-    				fv+=items.get(i).getFVContent()*items.get(i).getCalories()*0.01;
-    				pro+=items.get(i).getProContent()*items.get(i).getCalories()*0.01;
-    				other+=items.get(i).getOtherContent()*items.get(i).getCalories()*0.01;
-    				cal+=items.get(i).getCalories();
-    			}
-    		}
-    		if(wg>=TOTAL_WHOLE_GRAIN && fv>=TOTAL_FV && pro>=TOTAL_PROTEIN && other>=TOTAL_OTHER && cal>=TOTAL_CALORIES) {
-    			this.valid = true;
-    		}
-    		else {
-    			return;
-    		}
+    		     if(!items.get(i).getName().equals("")) {
+        				this.hamperItems.add(items.get(i));
+        				actualGrains+=items.get(i).getGrainContent()*items.get(i).getCalories()*0.01;
+        				actualFV+=items.get(i).getFVContent()*items.get(i).getCalories()*0.01;
+        				actualProtein+=items.get(i).getProContent()*items.get(i).getCalories()*0.01;
+        				actualOther+=items.get(i).getOtherContent()*items.get(i).getCalories()*0.01;
+        				actualCalories+=items.get(i).getCalories();
+    		            if(actualGrains>=TOTAL_GRAINS && actualFV>=TOTAL_FV && actualProtein>=TOTAL_PROTEIN && actualOther>=TOTAL_OTHER && actualCalories>=TOTAL_CALORIES) {
+    			            this.valid = true;
+    			            return;
+    		            }
+    		     }
+    		}     
+
     	}
+	}
+	/**
+	 * Returns string telling which nutritional component is short inside inventory
+	 * @return
+	 */
+	public String checkGaps() {
+		StringBuilder gaps = new StringBuilder();
+
+		if(this.actualGrains < this.TOTAL_GRAINS) {
+			gaps.append("whole grains, ");
+		}
+		if(this.actualFV < this.TOTAL_FV) {
+			gaps.append("fruits or veggies, ");
+		}
+		if(this.actualProtein < this.TOTAL_PROTEIN) {
+			gaps.append("protein, ");
+		}
+		if(this.actualOther < this.TOTAL_OTHER) {
+			gaps.append("other content, ");
+		}
+		return gaps.toString();
 	}
 }
