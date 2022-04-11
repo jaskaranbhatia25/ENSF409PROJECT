@@ -7,11 +7,9 @@
 package edu.ucalgary.ensf409;
 
 public interface OrderSummary {
-
-	/**
-	 * 
-	 * @param numOfOrders
-	 * @return String
-	 */
-	String formatSummary(int numOfOrders);
+    /**
+     * this method is implemented inside Order class
+     * @return
+     */
+	String formatSummary();
 }
