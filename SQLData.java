@@ -22,10 +22,10 @@ public class SQLData {
 	private ArrayList<ClientType> clients=new ArrayList<>();
 	
 	/**
-	 * 
-	 * @param dbURL
-	 * @param username
-	 * @param password
+	 * constructor for SQLData
+	 * @param dbURL 
+	 * @param username 
+	 * @param password 
 	 */
 	public SQLData(String dbURL, String username, String password) {
 		this.DBURL = dbURL;
@@ -36,22 +36,24 @@ public class SQLData {
 	public SQLData() {}
 	
 	/*
-	 * 
-	 */
+	 *   this means that whenever an order fails,  the updated inventory will be
+	 *    replaced back by the original inventory
+	 */ 
 	public void refreshUpdatedInventoryWhenOrderFails() throws CloneNotSupportedException {
 		Inventory refreshedUpdatedInventory = (Inventory)originalInventory.clone();
 		this.updatedInventory = refreshedUpdatedInventory;
 	}
 	
 	/*
-	 * 
+	 * refreshOriginalInventoryWhenOrderSuccess clone method for SQLData class, this means that whenever 
+	 * an order succeeds, the original inventory will be replaced by the updated inventory
 	 */
 	public void refreshOriginalInventoryWhenOrderSuccess() throws CloneNotSupportedException {
 		Inventory refreshedOriginalInventory = (Inventory)updatedInventory.clone();
 		this.originalInventory = refreshedOriginalInventory;
 	}	
 	
-	/*
+	/* this method is for making a connection between the database
 	 * 
 	 */
 	public void connectDatabase() throws CloneNotSupportedException {
@@ -104,8 +106,8 @@ public class SQLData {
          }
 	}
 	
-	/*
-	 * 
+	/* 
+	 * this method is for the updating the inventory after a particular order succeeds or fails
 	 */
 	public void updateDatabase() {
 		for(int i = 0; i< updatedInventory.getInventoryItems().size();i++) {
@@ -116,23 +118,23 @@ public class SQLData {
 	}	
 	
 	/**
-	 * 
-	 * @return Inventory
+	 * getter method for getting the original inventory.
+	 * @return Inventory 
 	 */
 	public Inventory getOriginalInventory() {
 		return this.originalInventory;
 	}
 	
 	/**
-	 * 
+	 *  getter method for getting the updated inventory after creation of each hamper.
 	 * @return Inventory
 	 */
 	public Inventory getUpdatedInventory() {
 		return this.updatedInventory;
 	}
 	 /**
-	  * 
-	  * @return ArrayList<ClientType>
+	  * getter method for getting the clients.
+	  * @return ArrayList<ClientType> 
 	  */
 	public ArrayList<ClientType> getClients() {
 		return this.clients;
