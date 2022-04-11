@@ -1,6 +1,12 @@
+/**
+@author Aleksander Rudolf, Ansh Singh, Jaskaran Bhatia
+@version 2.0
+@since 1.0 - Mar. 28/2022
+*/
+
 package edu.ucalgary.ensf409;
 
-public class ClientType {
+public class ClientType implements Cloneable {
 	
 	private final int CLIENT_ID;
 	private final String CLIENT;
@@ -10,7 +16,17 @@ public class ClientType {
 	private final int OTHER;
 	private final int CALORIES;
 	
-	public ClientType( int clientID, String client , int wholeGrains,  int fruitVeggies,  int protein, int other, int calories){	
+	/**
+	 * 
+	 * @param clientID
+	 * @param client
+	 * @param wholeGrains
+	 * @param fruitVeggies
+	 * @param protein
+	 * @param other
+	 * @param calories
+	 */
+	public ClientType( int clientID, String client , int wholeGrains,  int fruitVeggies,  int protein, int other, int calories) {	
 	    this.CLIENT_ID = clientID;
 	    this.CLIENT = client;
 	    this.WHOLE_GRAINS = wholeGrains;
@@ -20,31 +36,59 @@ public class ClientType {
 	    this.CALORIES = calories;		
 	}
 	
-	public int getClientID(){
+	/**
+	 * 
+	 * @return int
+	 */
+	public int getClientID() {
 		return this.CLIENT_ID;
 	}
 	
-	public String getClient(){
+	/**
+	 * 
+	 * @return String
+	 */
+	public String getClient() {
 		return this.CLIENT;
 	}
 	
-	public int getWholeGrains(){
+	/**
+	 * 
+	 * @return int
+	 */
+	public int getWholeGrains() {
 		return this.WHOLE_GRAINS;
 	}
 	
-	public int getFruitVeggies(){
+	/**
+	 * 
+	 * @return int
+	 */
+	public int getFruitVeggies() {
 		return this.FRUIT_VEGGIES;
 	}
 	
-	public int getProtein(){
+	/**
+	 * 
+	 * @return int
+	 */
+	public int getProtein() {
 		return this.PROTEIN;
 	}
 	
-	public int getOther(){
+	/**
+	 * 
+	 * @return int
+	 */
+	public int getOther() {
 		return this.OTHER;
 	}
 	
-	public int getCalories(){
+	/**
+	 * 
+	 * @return int
+	 */
+	public int getCalories() {
 		return this.CALORIES;
 	}
 }
