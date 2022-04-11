@@ -17,14 +17,14 @@ public class FoodItem implements Cloneable {
 	private final String NAME;
 	
 	/**
-	 * 
-	 * @param itemID
-	 * @param name
-	 * @param grainContent
+	 * constructor for FoodItem
+	 * @param itemID 
+	 * @param name 
+	 * @param grainContent 
 	 * @param fvContent
-	 * @param proContent
-	 * @param other
-	 * @param calories
+	 * @param proContent 
+	 * @param other 
+	 * @param calories 
 	 */
 	public FoodItem(int itemID, String name, int grainContent, int fvContent, int proContent, int other, int calories) {
 		this.ITEM_ID = itemID;
@@ -37,23 +37,23 @@ public class FoodItem implements Cloneable {
 	}
 	
 	/**
-	 * 
-	 * @return String
+	 *  getter method for Name
+	 * @return String 
 	 */
     public String getName() {
 		return this.NAME;
 	}
     
     /**
-     * 
-     * @return int
+     *  getter method for ItemID
+     * @return int 
      */
 	public int getItemID() {
 		return this.ITEM_ID;
 	}
 	
     /**
-     * 
+     * getter method for GrainContent
      * @return int
      */
 	public int getGrainContent() {
@@ -61,7 +61,7 @@ public class FoodItem implements Cloneable {
 	}
 	
     /**
-     * 
+     * getter method for FVContent
      * @return int
      */
 	public int getFVContent() {
@@ -69,23 +69,23 @@ public class FoodItem implements Cloneable {
 	}
 	
     /**
-     * 
-     * @return int
+     * getter method for ProContent
+     * @return int 
      */
 	public int getProContent() {
 		return this.PRO_CONTENT;
 	}
 	
     /**
-     * 
-     * @return int
+     *  getter method for OtherContent
+     * @return int 
      */
 	public int getOtherContent() {
 		return this.OTHER;
 	}
 	
     /**
-     * 
+     *  getter method for calories
      * @return int
      */
 	public int getCalories() {
@@ -93,8 +93,8 @@ public class FoodItem implements Cloneable {
 	}
 	
     /**
-     * 
-     * @return Object
+     * clone method for FoodItem class
+     * @return Object 
      */
 	public Object clone() throws CloneNotSupportedException {
 		return super.clone();
