@@ -291,10 +291,10 @@ public class TestDesign {
 		myFamily.createHamper(testData, myFamily.getNumOfMales() , myFamily.getNumOfFemales(), myFamily.getNumOfChildrenOver8(), myFamily.getNumOfChildrenUnder8());
 		Hamper myHamper = myFamily.getHamper();
 		myHamper.setActualCalories(expectedCal);
-		myHamper.setActualOther(expectedCal);
-		myHamper.setActualFV(expectedCal);
-		myHamper.setActualProtein(expectedCal);
-		myHamper.setActualWholeGrains(expectedCal);
+		myHamper.setActualOther(expectedOther);
+		myHamper.setActualFV(expectedFV);
+		myHamper.setActualProtein(expectedProtien);
+		myHamper.setActualWholeGrains(expectedWG);
 		double actualTotalWG =  myHamper.getTotalWholeGrains();
 		double actualTotalFV =  myHamper.getTotalFV();
 		double actualTotalProtien =  myHamper.getTotalProtein();
@@ -310,10 +310,10 @@ public class TestDesign {
     	assertEquals("Constructor or Getter for TotalProtien gave incorrect value", expectedTotalProtien, actualTotalProtien,DELTA);
     	assertEquals("Constructor or Getter for TotalOther gave incorrect value", expectedTotalOther, actualTotalOther,DELTA);
 		assertEquals("Constructor or Getter for TotalCalories gave incorrect value", expectedTotalCal, actualTotalCal,DELTA);
-		assertEquals("Constructor or Getter for TotalWG gave incorrect value", expectedWG, actualWG, DELTA);
-    	assertEquals("Constructor or Getter for TotalFV gave incorrect value", expectedFV, actualFV,DELTA);
-    	assertEquals("Constructor or Getter for TotalProtien gave incorrect value", expectedProtien, actualProtien,DELTA);
-    	assertEquals("Constructor or Getter for TotalOther gave incorrect value", expectedOther, actualOther,DELTA);
+		assertEquals("Constructor or Getter for actualWG gave incorrect value", expectedWG, actualWG, DELTA);
+    	assertEquals("Constructor or Getter for actualFV gave incorrect value", expectedFV, actualFV,DELTA);
+    	assertEquals("Constructor or Getter for actualProtien gave incorrect value", expectedProtien, actualProtien,DELTA);
+    	assertEquals("Constructor or Getter for actualOther gave incorrect value", expectedOther, actualOther,DELTA);
 		assertEquals("Constructor or Getter for Calories gave incorrect value", expectedCal, actualCal,DELTA);
     }
 	
