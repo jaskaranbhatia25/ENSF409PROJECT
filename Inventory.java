@@ -24,7 +24,12 @@ public class Inventory implements Cloneable {
 	public ArrayList<FoodItem> getInventoryItems() {
 		return inventoryItems ;
 	}
-	
+	/*
+	 * setter for inventory items
+	 */
+	public void setInventoryItems(ArrayList<FoodItem>inventoryItems) {
+		this.inventoryItems = inventoryItems ;
+	}
 	/**
 	 * returns a FoodItem at particular index at ArrayList
 	 * @param index
