@@ -1,4 +1,3 @@
-/**
 @author Aleksander Rudolf, Ansh Singh, Jaskaran Bhatia
 @version 2.0
 @since 1.0 - Mar. 28/2022
@@ -46,7 +45,7 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener {
     private JTextField u8Input;
     
     /**
-     * 
+     * Constructor
      * @param myData
      * @throws CloneNotSupportedException
      */
@@ -64,13 +63,13 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener {
     }
     
     /**
-     * 
+     * Writes the formatted order summary to a file.
      * @param sentence
      * @param numOfORders
      */
-    private void output(String sentence, int numOfORders) {
+    private void output(String sentence, int numOfOrders) {
 		try {
-			FileWriter writer = new FileWriter("Order_Summary_"+numOfORders+".txt", true);
+			FileWriter writer = new FileWriter("Order_Summary_"+numOfOrders+".txt", true);
 			writer.write(sentence + "\r\n");
 			writer.close();
 		} catch (IOException e) {
@@ -79,7 +78,7 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener {
 	}
     
     /*
-     * 
+     * Creates the GUI Frames/Buttons
      */
     public void setupGUI() {
         instructions = new JLabel("Please enter family information.");
@@ -130,7 +129,7 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener {
     }
     
     /*
-     * 
+     * Event handler to process clicking a button.
      */
     public void actionPerformed(ActionEvent event) {
        if(event.getSource()== addFamily) {
@@ -163,8 +162,8 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener {
     	   if(order.getValidOrder()) {
     		   myData.updateDatabase();
     		   numOfOrders++;
-    		   output(order.formatSummary(numOfOrders),numOfOrders);
-    		   System.out.println(order.formatSummary(numOfOrders));
+    		   output(order.formatSummary(),numOfOrders);
+    		   System.out.println(order.formatSummary());
     		   try {
     			   myData.refreshOriginalInventoryWhenOrderSuccess();
 			} catch (CloneNotSupportedException e) {
@@ -199,7 +198,7 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener {
     }
     
     /*
-     * 
+     * Event handler to process clicking into a text box of the GUI with a mouse.
      */
     public void mouseClicked(MouseEvent event) {
         
@@ -217,7 +216,7 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener {
     }
     
     /*
-     * 
+     * Event handlers to process different mouse actions.
      */
     public void mouseEntered(MouseEvent event) {}
 
@@ -228,7 +227,7 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener {
     public void mouseReleased(MouseEvent event) {}
     
     /**
-     * 
+     * Validates the input being entered into the Hamper Order Form via GUI to check for boundary conditions of the input.
      * @return boolean
      */
     private boolean validateInput() {
