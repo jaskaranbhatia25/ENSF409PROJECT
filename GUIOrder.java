@@ -56,7 +56,7 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener{
         
     }
     
-    private void output(String sentence, int numOfORders){
+    public void output(String sentence, int numOfORders){
 		try {
 			FileWriter writer = new FileWriter("Order_Summary_"+numOfORders+".txt", true);
 			writer.write(sentence + "\r\n");
@@ -148,8 +148,8 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener{
     	   if(order.getValidOrder() ) {
     		   myData.updateDatabase();
     		   numOfOrders++;
-    		   //output(order.formatSummary(numOfOrders),numOfOrders);
-    		   System.out.println(order.formatSummary());
+    		   output(order.formatSummary(),numOfOrders);
+    		   //System.out.println(order.formatSummary());
     		   try {
 				myData.refreshOriginalInventoryWhenOrderSuccess();
 			} catch (CloneNotSupportedException e) {
@@ -222,7 +222,7 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener{
     }
       
     
-    private boolean validateInput(){
+    public boolean validateInput(){
         
         boolean allInputValid = true;
 		
