@@ -191,7 +191,7 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener {
     	            femaleInput.setText("");
     	            o8Input.setText("");
     	            u8Input.setText("");
-    	    		JOptionPane.showMessageDialog(this, "Sorry! We connot process your order because of insufficient food items in the inventory.\nPlease hit ok to start another order or close the program");
+    	    		JOptionPane.showMessageDialog(this, "Sorry! We connot process your order because of insufficient +order.getGapMessage()+\nplease hit ok to start another order or close the program");
     	    	   } 
     		   }
        } 
