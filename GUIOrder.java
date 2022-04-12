@@ -1,13 +1,10 @@
-/*
-@author Aleksander Rudolf, Ansh Singh, Jaskaran Bhatia
-@version 2.0
-@since 1.0 - Mar. 28/2022
-*/
 
 package edu.ucalgary.ensf409;
 
 import java.awt.BorderLayout;
 import javax.swing.*;
+
+
 import java.awt.event.*;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,7 +12,7 @@ import java.util.ArrayList;
 import java.awt.FlowLayout;
 
 @SuppressWarnings("serial")
-public class GUIOrder extends JFrame implements ActionListener, MouseListener {
+public class GUIOrder extends JFrame implements ActionListener, MouseListener{
 	
 	private int numOfOrders = 0;
 
@@ -45,12 +42,7 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener {
     private JTextField o8Input;
     private JTextField u8Input;
     
-    /**
-     * Constructor
-     * @param myData
-     * @throws CloneNotSupportedException
-     */
-    public GUIOrder(SQLData myData) throws CloneNotSupportedException {
+    public GUIOrder(SQLData myData) throws CloneNotSupportedException{
         super("Hamper Ordering System");
 		this.order = new Order(); 
 		this.myData = myData;
@@ -61,16 +53,12 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener {
         setSize(350,300);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);        
+        
     }
     
-    /**
-     * Writes the formatted order summary to a file.
-     * @param sentence
-     * @param numOfORders
-     */
-    private void output(String sentence, int numOfOrders) {
+    private void output(String sentence, int numOfORders){
 		try {
-			FileWriter writer = new FileWriter("Order_Summary_"+numOfOrders+".txt", true);
+			FileWriter writer = new FileWriter("Order_Summary_"+numOfORders+".txt", true);
 			writer.write(sentence + "\r\n");
 			writer.close();
 		} catch (IOException e) {
@@ -78,20 +66,18 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener {
 		}
 	}
     
-    /*
-     * Creates the GUI Frames/Buttons
-     */
-    public void setupGUI() {
+    public void setupGUI(){
+        
         instructions = new JLabel("Please enter family information.");
         maleLabel = new JLabel("Number of Males:");
         femaleLabel = new JLabel("Number of Females:");
         o8Label = new JLabel("Number of children over 8:");
         u8Label = new JLabel("Number of children under 8:");
         
-        maleInput = new JTextField("e.g. 1", 15);
-        femaleInput = new JTextField("e.g. 1", 15);
-        o8Input = new JTextField("e.g. 1", 15);
-        u8Input = new JTextField("e.g. 1", 15);    
+        maleInput = new JTextField("Enter number b/w 1 and 10", 15);
+        femaleInput = new JTextField("Enter number b/w 1 and 10", 15);
+        o8Input = new JTextField("Enter number b/w 1 and 10", 15);
+        u8Input = new JTextField("Enter number b/w 1 and 10", 15);    
         
         maleInput.addMouseListener(this);
         femaleInput.addMouseListener(this);
@@ -129,26 +115,26 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener {
         this.add(submitPanel, BorderLayout.PAGE_END);
     }
     
-    /*
-     * Event handler to process clicking a button.
-     */
-    public void actionPerformed(ActionEvent event) {
+    public void actionPerformed(ActionEvent event){
+		
+      	
        if(event.getSource()== addFamily) {
-    	   male = maleInput.getText();
-    	   female = femaleInput.getText();
-    	   o8 = o8Input.getText();
-    	   u8 = u8Input.getText();
-    	   if(validateInput()){
-    		   order.addFamily(numOfMales,numOfFemales,over8,under8);
-    		   JOptionPane.showMessageDialog(this, "Family added successfully.");
-    		   maleInput.setText("");
-    		   femaleInput.setText("");
-    		   o8Input.setText("");
-    		   u8Input.setText("");
-    	   }
+    	  male = maleInput.getText();
+          female = femaleInput.getText();
+          o8 = o8Input.getText();
+          u8 = u8Input.getText();
+          if(validateInput()){
+            order.addFamily(numOfMales,numOfFemales,over8,under8);
+            JOptionPane.showMessageDialog(this, "Family added successfully.");
+            maleInput.setText("");
+            femaleInput.setText("");
+            o8Input.setText("");
+            u8Input.setText("");
+         }
        }
        if(event.getSource()== submitInfo) {
     	   ArrayList<Family> families = order.getFamilies();
+    	   
     	   
     	   for(int i=0;i<families.size();i++) {
     		   Family family = families.get(i);
@@ -156,18 +142,18 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener {
     		   Hamper hamper = family.getHamper();
     		   hamper.fillHamper();
     		   hamper.updateInventory();
-    		   System.out.println(hamper.getTotalCalories());
     	   }
     	   
     	   order.validateOrder();
-    	   if(order.getValidOrder()) {
+    	   if(order.getValidOrder() ) {
     		   myData.updateDatabase();
     		   numOfOrders++;
-    		   output(order.formatSummary(),numOfOrders);
+    		   //output(order.formatSummary(numOfOrders),numOfOrders);
     		   System.out.println(order.formatSummary());
     		   try {
-    			   myData.refreshOriginalInventoryWhenOrderSuccess();
+				myData.refreshOriginalInventoryWhenOrderSuccess();
 			} catch (CloneNotSupportedException e) {
+				
 				e.printStackTrace();
 			}
     		   this.order = new Order();
@@ -176,6 +162,7 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener {
                o8Input.setText("");
                u8Input.setText("");
     		   JOptionPane.showMessageDialog(this, "Your order is placed and all the hampers are successfully created.\nPlease hit ok to start another order or press cross button at the top right corner");
+    		  
     	   }
     	   else {
     		   if(order.getFamilies().size()==0) {
@@ -185,23 +172,24 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener {
     	    		try {
     					myData.refreshUpdatedInventoryWhenOrderFails();
     				} catch (CloneNotSupportedException e) {
+    		
     					e.printStackTrace();
     				}
-    	    		this.order = new Order();
-    	            maleInput.setText("");
-    	            femaleInput.setText("");
-    	            o8Input.setText("");
-    	            u8Input.setText("");
-    	    		JOptionPane.showMessageDialog(this, "Sorry! We connot process your order because of insufficient +order.getGapMessage()+\nplease hit ok to start another order or close the program");
+
+    	    		   JOptionPane.showMessageDialog(this, "Sorry! We connot process your order because of insufficient "+order.getGapMessage()+"\nplease hit ok to start another order or close the program");
+    	    	       this.order = new Order();
+    	               maleInput.setText("");
+    	               femaleInput.setText("");
+    	               o8Input.setText("");
+    	               u8Input.setText("");
     	    	   } 
     		   }
-       } 
+
+       }
+       
     }
     
-    /*
-     * Event handler to process clicking into a text box of the GUI with a mouse.
-     */
-    public void mouseClicked(MouseEvent event) {
+    public void mouseClicked(MouseEvent event){
         
         if(event.getSource().equals(maleInput))
             maleInput.setText("");
@@ -213,36 +201,39 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener {
             o8Input.setText("");
 
         if(event.getSource().equals(u8Input))
-            u8Input.setText("");     
+            u8Input.setText("");
+                
     }
     
-    /*
-     * Event handlers to process different mouse actions.
-     */
-    public void mouseEntered(MouseEvent event) {}
+    public void mouseEntered(MouseEvent event){
+        
+    }
 
-    public void mouseExited(MouseEvent event) {}
+    public void mouseExited(MouseEvent event){
+        
+    }
 
-    public void mousePressed(MouseEvent event) {}
+    public void mousePressed(MouseEvent event){
+        
+    }
 
-    public void mouseReleased(MouseEvent event) {}
+    public void mouseReleased(MouseEvent event){
+        
+    }
+      
     
-    /**
-     * Validates the input being entered into the Hamper Order Form via GUI to check for boundary conditions of the input.
-     * @return boolean
-     */
-    private boolean validateInput() {
+    private boolean validateInput(){
         
         boolean allInputValid = true;
 		
 		try{
 			numOfMales = Integer.parseInt(male);
-	        if( numOfMales < 0 || numOfMales > 10) {
+	        if( numOfMales < 0 || numOfMales > 10){
 	            allInputValid = false;
-	            JOptionPane.showMessageDialog(this, "The value entered for the number of males is out of range, please enter an integer between  and 10.");
+	            JOptionPane.showMessageDialog(this, "The value entered for the number of males is out of range, please enter an integer between 0 and 10.");
 	        }
 
-		} catch(Exception e) {
+		}catch(Exception e){
 			allInputValid = false;
 			if(male.equals(""))
 				JOptionPane.showMessageDialog(this, "Number of males field cannot be left empty.");
@@ -250,42 +241,44 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener {
                JOptionPane.showMessageDialog(this, male + " is invalid value for the number of males.");
         }
 		
-		try {
+		try{
+		
 			numOfFemales = Integer.parseInt(female);
-	        if(numOfFemales < 0 || numOfFemales > 10) {
+	        if( numOfFemales < 0 || numOfFemales > 10){
 	            allInputValid = false;
 	            JOptionPane.showMessageDialog(this, "The value entered for the number of females is out of range, please enter an integer between 0 and 10.");
 	        }
 
-		} catch(Exception e) {
+		}catch(Exception e){
 			allInputValid = false;
 			if(female.equals(""))
 				JOptionPane.showMessageDialog(this, "Number of females field cannot be left empty.");
 			else
                 JOptionPane.showMessageDialog(this, female + " is invalid value for the number of females.");
         }
-		try {
+		try{
+
 			over8 = Integer.parseInt(o8);
-	        if( over8 < 0 || over8 > 10) {
+	        if( over8 < 0 || over8 > 10){
 	            allInputValid = false;
 	            JOptionPane.showMessageDialog(this,"The value entered for  the number of children over eight is out of range, please enter an integer between 0 and 10.");
 	        }
 
-		} catch(Exception e) {
+		}catch(Exception e){
 			allInputValid = false;
 			if(o8.equals(""))
 				JOptionPane.showMessageDialog(this, "Number of children over 8 field cannot be left empty.");
 			else
                 JOptionPane.showMessageDialog(this, o8 + " is invalid value for the number of children over eight.");
         }
-		try {
+		try{
 			under8 = Integer.parseInt(u8);
 
-	        if(under8 < 0 || under8 > 10) {
+	        if(under8 < 0 || under8 > 10){
 	            allInputValid = false;
 	            JOptionPane.showMessageDialog(this, "The value entered for the number of children under eight is out of range, please enter an integer between 0 and 10.");
 	        }
-		} catch(Exception e) {
+		}catch(Exception e){
 			allInputValid = false;
 			if(u8.equals(""))
 				JOptionPane.showMessageDialog(this, "Number of children under 8 field cannot be left empty.");
@@ -296,6 +289,10 @@ public class GUIOrder extends JFrame implements ActionListener, MouseListener {
         	allInputValid = false;
         	JOptionPane.showMessageDialog(this, "You cannot create a family with zero members.");
         }
+
         return allInputValid;
-    }    
-}
+        
+    }
+
+        
+} 
