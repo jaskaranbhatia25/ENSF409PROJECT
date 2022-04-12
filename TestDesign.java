@@ -207,9 +207,9 @@ public class TestDesign {
     @Test
     /*
      * This test checks for whether checkGaps determine right deficiencies
-     */
+     */ 
 	public void testCheckGaps() {
-		String expectedString = "whole grains,fruits or veggies,protein,other content,";
+		String expectedString = "whole grains,fruits or veggies,protein,other content, ";
 		
 		fillSQLData();
 		Hamper testHamper = new Hamper(testData, 1, 1, 1, 1);
@@ -219,7 +219,7 @@ public class TestDesign {
 		testHamper.setActualOther(0);
 		testHamper.setActualCalories(testHamper.getTotalCalories()+1);
 		
-		assertEquals("checkGaps method did not identify the correct deficiences.", expectedString, testHamper.checkGaps());
+		assertEquals("CheckGaps() method did not identify the correct deficiences.", expectedString, testHamper.checkGaps());
 	}
 	
 	@Test
