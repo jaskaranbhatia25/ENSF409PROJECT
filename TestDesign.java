@@ -118,17 +118,18 @@ public class TestDesign {
 	with one Family object in it.*/
     @Test
     public void testOrderGetFamilies() {
-    	 Order testOrder = new Order();
+    	Order testOrder = new Order();
     	testOrder.addFamily(1,0,0,0);
     	assertNotNull("getFamilies returned null, expected not null", testOrder.getFamilies());
     }
 	/* This test checks to see if the getFamily() method of the Order object returns a Family object*/
     @Test
     public void testOrderGetFamily() {
-   	 Order testOrder = new Order();
-   	testOrder.addFamily(1,0,0,0);
-   	testOrder.getFamily(0);
-   	assertNotNull("getFamilies returned null, expected not null", testOrder.getFamily(0));
+      	Order testOrder = new Order();
+        testOrder.addFamily(1,0,0,0);
+        testOrder.getFamily(0);
+        assertNotNull("getFamilies returned null, expected not null", testOrder.getFamily(0));
+
    }
 	/* This test checks to see if the addFamily() method in Order sucessfully adds a Family to the
 	Family ArrayList.*/
@@ -198,9 +199,9 @@ public class TestDesign {
     	Order testOrder = new Order();
     	testOrder.addFamily(0,0,1,0);
     	Family testFamily = testOrder.getFamily(0);
-       testFamily.createHamper(testData, testFamily.getNumOfMales() , testFamily.getNumOfFemales(), testFamily.getNumOfChildrenOver8(), testFamily.getNumOfChildrenUnder8());
-       Hamper testHamper = testFamily.getHamper();
-       testHamper.fillHamper();
+        testFamily.createHamper(testData, testFamily.getNumOfMales() , testFamily.getNumOfFemales(), testFamily.getNumOfChildrenOver8(), testFamily.getNumOfChildrenUnder8());
+        Hamper testHamper = testFamily.getHamper();
+        testHamper.fillHamper();
     	String actualOutput = testOrder.formatSummary();
     	assertEquals("formatSummaray did not match the expected output", expectedOutput, actualOutput);
     }
@@ -209,7 +210,7 @@ public class TestDesign {
      * This test checks for whether checkGaps determine right deficiencies
      */ 
 	public void testCheckGaps() {
-		String expectedString = "whole grains,fruits or veggies,protein,other content, ";
+		String expectedString = "whole grains, fruits or veggies, protein, other content, ";
 		
 		fillSQLData();
 		Hamper testHamper = new Hamper(testData, 1, 1, 1, 1);
@@ -367,8 +368,8 @@ public class TestDesign {
     @Test
     public void testHamperGetMyData() {
     	fillSQLData();	
-		 Hamper myHamper = new Hamper(testData,1,0,1,0);
-		 SQLData actualMyData = myHamper.getMyData();		
+		Hamper myHamper = new Hamper(testData,1,0,1,0);
+		SQLData actualMyData = myHamper.getMyData();		
         assertSame("Method getMyData did not return the expected result: ", testData, actualMyData);
     }
 	
@@ -379,7 +380,7 @@ public class TestDesign {
 		Hamper myHamper = new Hamper(testData, 1, 0, 0, 0);
 		myHamper.setValid(true);
 		boolean expected = true;
-       assertEquals("Method setValid did not return the expected result: ", expected, myHamper.getValid());	
+        assertEquals("Method setValid did not return the expected result: ", expected, myHamper.getValid());	
 	}
 	/* This test checks if the setValid(0) changes the boolean value of the field valid to true*/
 	@Test 
@@ -410,12 +411,12 @@ public class TestDesign {
 	   testData.getUpdatedInventory().getInventoryItems().add(pasta);
 	   testData.getUpdatedInventory().getInventoryItems().add(beef);
 
-	    Order myOrder = new Order();
-		myOrder.addFamily(1,2,2,1);
-		Family myFamily = myOrder.getFamily(0);
-		myFamily.createHamper(testData, myFamily.getNumOfMales() , myFamily.getNumOfFemales(), myFamily.getNumOfChildrenOver8(), myFamily.getNumOfChildrenUnder8());	
-		Hamper myHamper = myFamily.getHamper();
-		myHamper.fillHamper();
+	   Order myOrder = new Order();
+	   myOrder.addFamily(1,2,2,1);
+	   Family myFamily = myOrder.getFamily(0);
+	   myFamily.createHamper(testData, myFamily.getNumOfMales() , myFamily.getNumOfFemales(), myFamily.getNumOfChildrenOver8(), myFamily.getNumOfChildrenUnder8());	
+	   Hamper myHamper = myFamily.getHamper();
+	   myHamper.fillHamper();
 		
         assertEquals("Method getValid did not return the expected false when inventory had insufficient fooditems: ", false, myHamper.getValid());		
 	}
@@ -429,9 +430,9 @@ public class TestDesign {
 	    Order myOrder = new Order();
 		myOrder.addFamily(0,0,1,0);
 		Family myFamily = myOrder.getFamily(0);
-		 myFamily.createHamper(testData, myFamily.getNumOfMales() , myFamily.getNumOfFemales(), myFamily.getNumOfChildrenOver8(), myFamily.getNumOfChildrenUnder8());	
-		 Hamper myHamper = myFamily.getHamper();
-		 myHamper.fillHamper();
+		myFamily.createHamper(testData, myFamily.getNumOfMales() , myFamily.getNumOfFemales(), myFamily.getNumOfChildrenOver8(), myFamily.getNumOfChildrenUnder8());	
+		Hamper myHamper = myFamily.getHamper();
+		myHamper.fillHamper();
         assertEquals("Method getValid did not return the expected true when inventory had insufficient fooditems: ", true, myHamper.getValid());		
 	}	
 		
@@ -445,11 +446,7 @@ public class TestDesign {
 		myFamily.createHamper(testData, myFamily.getNumOfMales() , myFamily.getNumOfFemales(), myFamily.getNumOfChildrenOver8(), myFamily.getNumOfChildrenUnder8());	
 		Hamper myHamper = myFamily.getHamper();
 		myHamper.fillHamper();
-		for(int i= 0;i<myHamper.getHamperItems().size();i++) {
-			System.out.println(myHamper.getHamperItems().get(i).getName());
-		}
-		
-		
+
 		ArrayList<FoodItem> actualItems = myHamper.getHamperItems();
 		ArrayList<FoodItem> expectedItems = new ArrayList<>();
 		expectedItems.add(tomatoSauce);
@@ -474,9 +471,9 @@ public class TestDesign {
 	    Order myOrder = new Order();
 		myOrder.addFamily(0,0,1,0);
 		Family myFamily = myOrder.getFamily(0);
-         myFamily.createHamper(testData, myFamily.getNumOfMales() , myFamily.getNumOfFemales(), myFamily.getNumOfChildrenOver8(), myFamily.getNumOfChildrenUnder8());		
-         Hamper myHamper = myFamily.getHamper();
-         myHamper.fillHamper();
+        myFamily.createHamper(testData, myFamily.getNumOfMales() , myFamily.getNumOfFemales(), myFamily.getNumOfChildrenOver8(), myFamily.getNumOfChildrenUnder8());		
+        Hamper myHamper = myFamily.getHamper();
+        myHamper.fillHamper();
 		myHamper.updateInventory();
 		ArrayList<FoodItem> myItemsInHamper = myHamper.getHamperItems();
 		Inventory afterUpdatingInventory = testData.getUpdatedInventory();
@@ -509,9 +506,9 @@ public class TestDesign {
 		myOrder.addFamily(1,2,2,1);
 		Family myFamily = myOrder.getFamily(0);
 		Inventory beforeUpdate = testData.getUpdatedInventory();			
-         myFamily.createHamper(testData, myFamily.getNumOfMales() , myFamily.getNumOfFemales(), myFamily.getNumOfChildrenOver8(), myFamily.getNumOfChildrenUnder8());		
-         Hamper myHamper = myFamily.getHamper();
-         myHamper.fillHamper();
+        myFamily.createHamper(testData, myFamily.getNumOfMales() , myFamily.getNumOfFemales(), myFamily.getNumOfChildrenOver8(), myFamily.getNumOfChildrenUnder8());		
+        Hamper myHamper = myFamily.getHamper();
+        myHamper.fillHamper();
 		myHamper.updateInventory();
 	    Inventory afterUpdate = testData.getUpdatedInventory();
 		for(int i = 0; i<beforeUpdate.getInventoryItems().size();i++){
@@ -671,5 +668,6 @@ public class TestDesign {
         assertFalse("Did not update updatedInventory with deep copy of originalInventory as inventory refrences were same",original == updated);
         assertFalse("Did not update updatedInventory with deep copy of originalInventory because array list refrences were same",original.getInventoryItems() == updated.getInventoryItems());
         assertFalse("Did not update updatedInventory with deep copy of originalInventory because FoodItem at first index was not deep copy.",original.getInventoryItems().get(0) == updated.getInventoryItems().get(0));            
+	
 	}
 }
