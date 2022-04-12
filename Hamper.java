@@ -301,96 +301,79 @@ public class Hamper {
     	Inventory inventory = myData.getUpdatedInventory();
     	ArrayList<FoodItem> items = inventory.getInventoryItems();
     	
-    	if(items.size() <= 170) {
-    		ArrayList<ArrayList<FoodItem>> allsubsets = getSubsets(items);
-        	ArrayList<Hamper> hamperCombos = new ArrayList<Hamper>();
-        	ArrayList<Hamper> invalidHamperCombos = new ArrayList<Hamper>();
-        	for(int i = 0; i < allsubsets.size(); i++) {
-        		double wg = 0;
-        		double fv = 0;
-        		double pro = 0;
-        		double other = 0;
-        		double cal = 0;
-        		for(int j = 0; j < allsubsets.get(i).size(); j++) {
-        			wg += allsubsets.get(i).get(j).getGrainContent()*allsubsets.get(i).get(j).getCalories()*0.01;
-        			fv += allsubsets.get(i).get(j).getFVContent()*allsubsets.get(i).get(j).getCalories()*0.01;
-        			pro += allsubsets.get(i).get(j).getProContent()*allsubsets.get(i).get(j).getCalories()*0.01;
-        			other += allsubsets.get(i).get(j).getOtherContent()*allsubsets.get(i).get(j).getCalories()*0.01;
-        			cal += allsubsets.get(i).get(j).getCalories();
-        		}
-        		//System.out.println("wg" + wg + " fv" + fv + " pro" + pro + " other" + other + " cal" + cal);
-        		if(wg>=TOTAL_GRAINS && fv>=TOTAL_FV && pro>=TOTAL_PROTEIN && other>=TOTAL_OTHER && cal>=TOTAL_CALORIES) {
-        			hamperCombos.add(new Hamper(allsubsets.get(i), wg, fv, pro, other, cal, TOTAL_GRAINS, TOTAL_FV, TOTAL_PROTEIN, TOTAL_OTHER, TOTAL_CALORIES));
-        		}
-        		else {
-        			if(cal>TOTAL_CALORIES&&(fv<TOTAL_FV || pro<TOTAL_PROTEIN || other<TOTAL_OTHER || cal<TOTAL_CALORIES))
-        				invalidHamperCombos.add(new Hamper(allsubsets.get(i), wg, fv, pro, other, cal, TOTAL_GRAINS, TOTAL_FV, TOTAL_PROTEIN, TOTAL_OTHER, TOTAL_CALORIES));
+		ArrayList<ArrayList<FoodItem>> allsubsets = getSubsets(items);
+    	ArrayList<Hamper> hamperCombos = new ArrayList<Hamper>();
+    	ArrayList<Hamper> invalidHamperCombos = new ArrayList<Hamper>();
+    	for(int i = 0; i < allsubsets.size(); i++) {
+    		double wg = 0;
+    		double fv = 0;
+    		double pro = 0;
+    		double other = 0;
+    		double cal = 0;
+    		for(int j = 0; j < allsubsets.get(i).size(); j++) {
+    			wg += allsubsets.get(i).get(j).getGrainContent()*allsubsets.get(i).get(j).getCalories()*0.01;
+    			fv += allsubsets.get(i).get(j).getFVContent()*allsubsets.get(i).get(j).getCalories()*0.01;
+    			pro += allsubsets.get(i).get(j).getProContent()*allsubsets.get(i).get(j).getCalories()*0.01;
+    			other += allsubsets.get(i).get(j).getOtherContent()*allsubsets.get(i).get(j).getCalories()*0.01;
+    			cal += allsubsets.get(i).get(j).getCalories();
+    		}
+    		//System.out.println("wg" + wg + " fv" + fv + " pro" + pro + " other" + other + " cal" + cal);
+    		if(wg>=TOTAL_GRAINS && fv>=TOTAL_FV && pro>=TOTAL_PROTEIN && other>=TOTAL_OTHER && cal>=TOTAL_CALORIES) {
+    			hamperCombos.add(new Hamper(allsubsets.get(i), wg, fv, pro, other, cal, TOTAL_GRAINS, TOTAL_FV, TOTAL_PROTEIN, TOTAL_OTHER, TOTAL_CALORIES));
+    		}
+    		else {
+    			if(cal>TOTAL_CALORIES&&(fv<TOTAL_FV || pro<TOTAL_PROTEIN || other<TOTAL_OTHER || cal<TOTAL_CALORIES))
+    				invalidHamperCombos.add(new Hamper(allsubsets.get(i), wg, fv, pro, other, cal, TOTAL_GRAINS, TOTAL_FV, TOTAL_PROTEIN, TOTAL_OTHER, TOTAL_CALORIES));
 
-        		}
-        	}
-        	if(!hamperCombos.isEmpty()) {
-        		Hamper optimalHamper = hamperCombos.get(0);
-        		for(int i = 0; i < hamperCombos.size(); i++) {
-        			if(hamperCombos.get(i).getActualCalories() < optimalHamper.getActualCalories()) {
-        				optimalHamper = hamperCombos.get(i);
-        			}
-        		}
-            	actualGrains=optimalHamper.getActualWholeGrains();
-    			actualFV=optimalHamper.getActualFV();
-    			actualProtein=optimalHamper.getActualProtein();
-    			actualOther=optimalHamper.getActualOther();
-    			actualCalories=optimalHamper.getActualCalories();
-                hamperItems = optimalHamper.getHamperItems();
-                this.valid = true;
+    		}
+    	}
+    	if(!hamperCombos.isEmpty()) {
+    		Hamper optimalHamper = hamperCombos.get(0);
+    		for(int i = 0; i < hamperCombos.size(); i++) {
+    			if(hamperCombos.get(i).getActualCalories() < optimalHamper.getActualCalories()) {
+    				optimalHamper = hamperCombos.get(i);
+    			}
+    		}
+        	actualGrains=optimalHamper.getActualWholeGrains();
+			actualFV=optimalHamper.getActualFV();
+			actualProtein=optimalHamper.getActualProtein();
+			actualOther=optimalHamper.getActualOther();
+			actualCalories=optimalHamper.getActualCalories();
+            hamperItems = optimalHamper.getHamperItems();
+            this.valid = true;
 
-        	}
-        	else {
-        		if(!invalidHamperCombos.isEmpty()) {
-            		Hamper optimalHamper = invalidHamperCombos.get(0);
-            		for(int i = 0; i < invalidHamperCombos.size(); i++) {
-            			if(invalidHamperCombos.get(i).getActualCalories() > optimalHamper.getActualCalories()) {
-            				optimalHamper = invalidHamperCombos.get(i);
-            			}
-            		}
-            		actualGrains=optimalHamper.getActualWholeGrains();
-    				actualFV=optimalHamper.getActualFV();
-    				actualProtein=optimalHamper.getActualProtein();
-    				actualOther=optimalHamper.getActualOther();
-    				actualCalories=optimalHamper.getActualCalories();
-                    hamperItems = optimalHamper.getHamperItems();
-        		}
-        		else {
-            		actualGrains=Double.MAX_VALUE;
-    				actualFV=Double.MAX_VALUE;
-    				actualProtein=Double.MAX_VALUE;
-    				actualOther=Double.MAX_VALUE;
-    				actualCalories=0;
-                    hamperItems = new ArrayList<FoodItem>();
-        		}
-        			
-
-                
-        	}
     	}
     	else {
+    		if(!invalidHamperCombos.isEmpty()) {
+        		Hamper optimalHamper = invalidHamperCombos.get(0);
+        		for(int i = 0; i < invalidHamperCombos.size(); i++) {
+        			if(invalidHamperCombos.get(i).getActualCalories() > optimalHamper.getActualCalories()) {
+        				optimalHamper = invalidHamperCombos.get(i);
+        			}
+        		}
+        		actualGrains=optimalHamper.getActualWholeGrains();
+				actualFV=optimalHamper.getActualFV();
+				actualProtein=optimalHamper.getActualProtein();
+				actualOther=optimalHamper.getActualOther();
+				actualCalories=optimalHamper.getActualCalories();
+                hamperItems = optimalHamper.getHamperItems();
+    		}
+    		else {
+        		actualGrains=Double.MAX_VALUE;
+				actualFV=Double.MAX_VALUE;
+				actualProtein=Double.MAX_VALUE;
+				actualOther=Double.MAX_VALUE;
+				actualCalories=0;
+                hamperItems = new ArrayList<FoodItem>();
+    		}
+    			
 
-    		for(int i = 0; i < items.size(); i++) {
-    		     if(!items.get(i).getName().equals("")) {
-        				this.hamperItems.add(items.get(i));
-        				actualGrains+=items.get(i).getGrainContent()*items.get(i).getCalories()*0.01;
-        				actualFV+=items.get(i).getFVContent()*items.get(i).getCalories()*0.01;
-        				actualProtein+=items.get(i).getProContent()*items.get(i).getCalories()*0.01;
-        				actualOther+=items.get(i).getOtherContent()*items.get(i).getCalories()*0.01;
-        				actualCalories+=items.get(i).getCalories();
-    		            if(actualGrains>=TOTAL_GRAINS && actualFV>=TOTAL_FV && actualProtein>=TOTAL_PROTEIN && actualOther>=TOTAL_OTHER && actualCalories>=TOTAL_CALORIES) {
-    			            this.valid = true;
-    			            return;
-    		            }
-    		     }
-    		}     
-
+            
     	}
 	}
+
+
+	
 	/**
 	 * Returns string telling which nutritional component is short inside inventory
 	 * @return
@@ -400,19 +383,19 @@ public class Hamper {
 	
 
 		if(this.actualGrains < this.TOTAL_GRAINS) {
-			gaps.append("whole grains,");
+			gaps.append("whole grains, ");
 		}
 		if(this.actualFV < this.TOTAL_FV) {
-			gaps.append("fruits or veggies,");
+			gaps.append("fruits or veggies, ");
 		}
 		if(this.actualProtein < this.TOTAL_PROTEIN) {
-			gaps.append("protein,");
+			gaps.append("protein, ");
 		}
 		if(this.actualOther < this.TOTAL_OTHER) {
 			gaps.append("other content, ");
 		}
 		if(this.actualCalories < this.TOTAL_CALORIES) {
-			gaps.append("food to meet total calories,");
+			gaps.append("food to meet total calories, ");
 		}
 		return gaps.toString();
 	}
