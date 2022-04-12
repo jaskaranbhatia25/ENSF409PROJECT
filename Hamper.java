@@ -301,7 +301,7 @@ public class Hamper {
     	Inventory inventory = myData.getUpdatedInventory();
     	ArrayList<FoodItem> items = inventory.getInventoryItems();
     	
-    	if(items.size() <= 25) {
+    	if(items.size() <= 170) {
     		ArrayList<ArrayList<FoodItem>> allsubsets = getSubsets(items);
         	ArrayList<Hamper> hamperCombos = new ArrayList<Hamper>();
         	ArrayList<Hamper> invalidHamperCombos = new ArrayList<Hamper>();
@@ -397,6 +397,7 @@ public class Hamper {
 	 */
 	public String checkGaps() {
 		StringBuilder gaps = new StringBuilder();
+	
 
 		if(this.actualGrains < this.TOTAL_GRAINS) {
 			gaps.append("whole grains,");
@@ -408,10 +409,10 @@ public class Hamper {
 			gaps.append("protein,");
 		}
 		if(this.actualOther < this.TOTAL_OTHER) {
-			gaps.append("other content,");
+			gaps.append("other content, ");
 		}
 		if(this.actualCalories < this.TOTAL_CALORIES) {
-			gaps.append("food to meet total calories");
+			gaps.append("food to meet total calories,");
 		}
 		return gaps.toString();
 	}
